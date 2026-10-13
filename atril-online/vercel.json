@@ -1,0 +1,42 @@
+{
+  "functions": {
+    "api/ai.js": {
+      "maxDuration": 300
+    },
+    "api/tts.js": {
+      "maxDuration": 60
+    },
+    "api/voices.js": {
+      "maxDuration": 30
+    },
+    "api/signup.js": {
+      "maxDuration": 30
+    },
+    "api/admin.js": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "credentialless"
+        }
+      ]
+    }
+  ]
+}

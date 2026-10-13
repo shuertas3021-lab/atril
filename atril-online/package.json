@@ -1,0 +1,6 @@
+{
+  "name": "atril",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" }
+}
