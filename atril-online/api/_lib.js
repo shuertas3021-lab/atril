@@ -1,4 +1,4 @@
-import { createHash, timingSafeEqual } from 'node:crypto';
+import { createHash, timingSafeEqual, createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
 
 const digest = (s) => createHash('sha256').update(String(s)).digest();
 export const safeEqual = (a, b) => timingSafeEqual(digest(a), digest(b));
@@ -96,4 +96,43 @@ export async function bumpUsage(user, { chars = 0, calls = 0 }) {
     const j = await r.json();
     return Array.isArray(j) ? j[0] : j;
   } catch (e) { console.error('[usage]', e); return null; }
+}
+
+/* ---------- Llaves de IA de cada persona (guardadas cifradas en su cuenta) ---------- */
+// Se guardan en app_metadata del usuario de Supabase (la persona no puede modificarlo por su cuenta)
+// cifradas con AES-256-GCM. La clave de cifrado sale de KEYS_SECRET o, si no existe, de la llave secreta de Supabase.
+export const AI_PROVIDERS = ['claude', 'openai', 'gemini'];
+const encKey = () => createHash('sha256').update('atril-keys:' + (process.env.KEYS_SECRET || secretKey())).digest();
+export function sealKey(plain) {
+  const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', encKey(), iv);
+  const ct = Buffer.concat([c.update(String(plain), 'utf8'), c.final()]);
+  return Buffer.concat([iv, c.getAuthTag(), ct]).toString('base64');
+}
+export function openKey(sealed) {
+  try {
+    const b = Buffer.from(String(sealed), 'base64'), d = createDecipheriv('aes-256-gcm', encKey(), b.subarray(0, 12));
+    d.setAuthTag(b.subarray(12, 28));
+    return Buffer.concat([d.update(b.subarray(28)), d.final()]).toString('utf8');
+  } catch { return ''; }
+}
+export const maskKey = (v) => (v ? v.slice(0, v.startsWith('sk-ant-') ? 10 : 8) + '…' + v.slice(-4) : '');
+/** Lee {claude:{enc,mask},openai:…,gemini:…,pref} de la cuenta. */
+export async function getStoredKeys(userId) {
+  if (!accountsOn() || !userId) return {};
+  try {
+    const r = await sb(`/auth/v1/admin/users/${userId}`);
+    if (!r.ok) return {};
+    const u = await r.json();
+    return (u.app_metadata && u.app_metadata.atril_keys) || {};
+  } catch { return {}; }
+}
+export async function saveStoredKeys(userId, keys) {
+  const r = await sb(`/auth/v1/admin/users/${userId}`, { method: 'PUT', body: JSON.stringify({ app_metadata: { atril_keys: keys } }) });
+  if (!r.ok) throw new Error('No se pudo guardar en tu cuenta (' + r.status + ').');
+}
+/** Vista pública: solo qué llaves hay y su versión enmascarada. */
+export function publicKeys(keys) {
+  const out = {};
+  for (const p of AI_PROVIDERS) if (keys[p] && keys[p].enc) out[p] = { mask: keys[p].mask || '' };
+  return { aiKeys: out, aiPref: AI_PROVIDERS.includes(keys.pref) ? keys.pref : null };
 }

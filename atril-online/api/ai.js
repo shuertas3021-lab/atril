@@ -1,5 +1,6 @@
-import { authenticate, bumpUsage, limits, fail } from './_lib.js';
+import { authenticate, bumpUsage, limits, fail, getStoredKeys, openKey } from './_lib.js';
 import { handleOpenAI } from './_openai.js';
+import { handleGemini } from './_gemini.js';
 
 const MODELS = {
   quick: () => process.env.AI_MODEL_QUICK || 'claude-haiku-5-5',
@@ -13,14 +14,27 @@ export default async function handler(req, res) {
   if (!user) return;
   if (req.method !== 'POST') return fail(res, 405, 'method', 'Usa POST.');
 
-  // ChatGPT (OpenAI) con la llave de la persona.
-  if (req.body && req.body.provider === 'openai') {
+  // Con cuentas, la llave de cada persona vive cifrada en su cuenta: se descifra aquí y no sale del servidor.
+  if (user.id && !(req.body && req.body.test)) {
+    const prov = (req.body && req.body.provider) || 'claude';
+    const hdr = { claude: 'x-atril-ai-key', openai: 'x-atril-oa-key', gemini: 'x-atril-gm-key' }[prov];
+    if (hdr && !req.headers[hdr]) {
+      const stored = await getStoredKeys(user.id);
+      const k = stored[prov] && stored[prov].enc ? openKey(stored[prov].enc) : '';
+      if (k) req.headers[hdr] = k;
+      else if (stored[prov] && stored[prov].enc) return fail(res, 400, 'provider_auth', 'No se pudo leer tu llave guardada. Vuelve a pegarla en «Mi cuenta → Inteligencia artificial».');
+    }
+  }
+
+  // ChatGPT (OpenAI) o Gemini con la llave de la persona.
+  if (req.body && (req.body.provider === 'openai' || req.body.provider === 'gemini')) {
+    const prov = req.body.provider, name = prov === 'gemini' ? 'Gemini' : 'ChatGPT';
     const { input } = req.body;
     if (!req.body.test) {
-      if (typeof input !== 'string' || !input.trim()) return fail(res, 400, 'empty', 'No hay nada que enviar a ChatGPT.');
+      if (typeof input !== 'string' || !input.trim()) return fail(res, 400, 'empty', `No hay nada que enviar a ${name}.`);
       if (input.length > MAX_INPUT) return fail(res, 413, 'prompt_too_large', 'El material es demasiado largo. Elige menos capítulos o documentos.');
     }
-    return handleOpenAI(req, res, user);
+    return prov === 'gemini' ? handleGemini(req, res, user) : handleOpenAI(req, res, user);
   }
 
   // Llave propia de la persona (la guarda en su navegador y viaja en este encabezado; aquí no se guarda).

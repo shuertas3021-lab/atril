@@ -231,6 +231,7 @@ table.adm .num{text-align:right;font-variant-numeric:tabular-nums;white-space:no
 .ak-steps li b{color:var(--ink)}
 .ak-steps a{color:var(--accent);font-weight:600}
 .ak-steps code,.ak-card code{font-size:12px;background:var(--bg);padding:1px 5px;border-radius:4px}
+.ak-others{margin:0;font-size:13px;color:var(--muted);text-align:center}
 .ak-switch{border:0;background:transparent;color:var(--accent);font:inherit;font-size:13px;padding:4px;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .acct-key{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:8px;border-top:1px solid var(--line)}
 .acct-key>span{display:flex;flex-direction:column;min-width:0;font-size:11.5px;color:var(--muted)}
@@ -391,6 +392,67 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
   .app.calm .page{margin-top:max(12px,env(safe-area-inset-top,0px))}
 }
 @media (prefers-reduced-motion:reduce){.s{transition:none}}
+
+/* ---------- Teléfono: lectura estilo Apple Books ---------- */
+.m-top,.m-bot,.m-round,.m-menu,.m-catch{display:none}
+/* Se aplica en teléfonos y tabletas (la clase .mread solo la pone el código en pantallas táctiles) */
+@media all{
+  .app.mread{height:100%;grid-template-columns:minmax(0,1fr)!important}
+  .app.mread #colLib,.app.mread:not(.peek) #colNotes{display:none}
+  .app.mread #colRead{display:flex}
+  .app.mread ~ .mnav{display:none}
+  .app.mread .rhead{display:none}
+  .app.mread #readScroll,.app.mread #colRead{background:var(--surface)}
+  .app.mread .page{margin:0 auto;max-width:min(780px,100%);border-radius:0;box-shadow:none;background:transparent;padding:calc(env(safe-area-inset-top,0px) + 52px) max(26px,5vw) calc(env(safe-area-inset-bottom,0px) + 64px)}
+  .app.mread.paged .page{margin:0;max-width:none!important;width:100%;padding:calc(env(safe-area-inset-top,0px) + 48px) max(26px,5vw) calc(env(safe-area-inset-bottom,0px) + 56px)}
+  .app.mread.paged .page.spread::before{opacity:.6}
+  .app.mread .pgbtn,.app.mread .pager{display:none!important}
+  .app.mread .m-top,.app.mread .m-bot{display:block;position:fixed;left:64px;right:64px;z-index:20;text-align:center;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums;pointer-events:none;transition:opacity .25s}
+  .app.mread .m-top{top:calc(env(safe-area-inset-top,0px) + 14px);font-weight:500}
+  .app.mread .m-bot{bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}
+  /* Botones redondos flotantes */
+  .app.mread .m-round{display:grid;place-items:center;position:fixed;z-index:42;width:52px;height:52px;border-radius:50%;border:0;padding:0;color:var(--ink);
+    background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);
+    box-shadow:0 6px 22px -8px rgba(0,0,0,.45),inset 0 0 0 .5px color-mix(in srgb,var(--ink) 14%,transparent);
+    transition:opacity .28s ease,transform .32s cubic-bezier(.22,.9,.3,1.2),bottom .35s cubic-bezier(.22,.75,.25,1)}
+  .app.mread .m-round svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .app.mread .m-round svg .fill,.app.mread .mi svg .fill{fill:currentColor;stroke:none}
+  .app.mread .m-x{top:calc(env(safe-area-inset-top,0px) + 4px);right:14px;width:44px;height:44px}
+  .app.mread .m-x svg{width:20px;height:20px}
+  .app.mread .m-fab{right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 14px)}
+  .app.mread.calm .m-fab{bottom:calc(env(safe-area-inset-bottom,0px) + 128px)}
+  .app.mread.mmenu-open .m-fab{transform:rotate(90deg)}
+  .app.mread.mhide .m-x,.app.mread.mhide .m-fab{opacity:0;transform:scale(.6);pointer-events:none}
+  .app.mread.mmenu-open .m-x{opacity:0;pointer-events:none}
+  /* Menú desplegable: píldoras que brotan del botón */
+  .app.mread .m-catch{display:block;position:fixed;inset:0;z-index:40;background:color-mix(in srgb,var(--bg) 0%,transparent);transition:background-color .3s}
+  .app.mread.mmenu-open .m-catch{background:color-mix(in srgb,var(--bg) 35%,transparent)}
+  .app.mread .m-menu{display:flex;flex-direction:column;align-items:stretch;gap:10px;position:fixed;z-index:41;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 78px);width:min(340px,calc(100vw - 32px));pointer-events:none}
+  .app.mread.calm .m-menu{bottom:calc(env(safe-area-inset-bottom,0px) + 192px)}
+  .app.mread .mi{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;padding:0 20px 0 22px;border:0;border-radius:28px;font:inherit;font-size:16.5px;font-weight:500;color:var(--ink);text-align:left;cursor:pointer;
+    background:color-mix(in srgb,var(--surface) 86%,transparent);-webkit-backdrop-filter:blur(20px) saturate(1.4);backdrop-filter:blur(20px) saturate(1.4);
+    box-shadow:0 10px 30px -14px rgba(0,0,0,.5),inset 0 0 0 .5px color-mix(in srgb,var(--ink) 12%,transparent);
+    opacity:0;transform:translateY(18px) scale(.86);transform-origin:right bottom;
+    transition:opacity .18s ease calc((6 - var(--i,1)) * 18ms),transform .22s cubic-bezier(.4,0,.6,1) calc((6 - var(--i,1)) * 18ms)}
+  .app.mread .mi:active{transform:scale(.97)!important}
+  .app.mread .mi svg{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .app.mread .mi .aa{font-size:15px;font-weight:600;letter-spacing:-.02em}.app.mread .mi .aa big{font-size:21px}
+  .app.mread .m-row{display:flex;gap:10px;justify-content:flex-end;--i:1}
+  .app.mread .m-row .mi{width:64px;height:56px;padding:0;justify-content:center;border-radius:28px;--i:1}
+  .app.mread.mmenu-open .m-menu{pointer-events:auto}
+  .app.mread.mmenu-open .mi{opacity:1;transform:none;transition:opacity .22s ease calc(var(--i,1) * 32ms),transform .42s cubic-bezier(.2,.9,.25,1.15) calc(var(--i,1) * 32ms)}
+  /* Reproductor: sube desde abajo solo mientras escuchas */
+  .app.mread .player{position:fixed;left:0;right:0;bottom:0;z-index:30;border-top:0;border-radius:20px 20px 0 0;box-shadow:0 -10px 30px -16px rgba(0,0,0,.35);transform:translateY(110%);transition:transform .38s cubic-bezier(.22,.75,.25,1);background:color-mix(in srgb,var(--surface) 92%,transparent);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+  .app.mread.calm .player{transform:none}
+  .app.mread.calm .m-bot{opacity:0}
+  /* Índice y ajustes como hojas que suben desde abajo */
+  .app.mread .setp{position:fixed;top:auto;left:8px;right:8px;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);width:auto;max-height:78dvh;border-radius:22px;z-index:45;padding:22px 16px 18px;animation:sheetUp .34s cubic-bezier(.22,.8,.25,1)}
+  .app.mread .setp::before{content:"";position:absolute;top:8px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:3px;background:var(--line)}
+  .app.mread .setp.closing{animation:sheetDown .22s ease-in forwards}
+}
+@keyframes sheetUp{from{transform:translateY(105%)}to{transform:none}}
+@keyframes sheetDown{from{transform:none}to{transform:translateY(105%)}}
+@media (prefers-reduced-motion:reduce){.app.mread .mi,.app.mread .m-round,.app.mread .player{transition:none!important}.app.mread .setp{animation:none!important}}
 </style>
 
 <div class="app">
@@ -513,6 +575,24 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
       <button class="btn sm ghost" id="testVoice">Probar</button>
       <span class="meta" id="meta"></span>
     </div>
+    <!-- Lectura en teléfono (estilo Apple Books): solo el texto, con menú flotante -->
+    <div class="m-top" id="mTop" aria-hidden="true"></div>
+    <div class="m-bot" id="mBot" aria-hidden="true"></div>
+    <button type="button" class="m-round m-x" id="mX" aria-label="Cerrar libro e ir a la biblioteca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="m-catch" id="mCatch" hidden></div>
+    <div class="m-menu" id="mMenu" role="menu" aria-label="Opciones de lectura" aria-hidden="true">
+      <button type="button" class="mi" role="menuitem" data-m="toc" style="--i:6"><span id="mToc">Contenido</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/></svg></button>
+      <button type="button" class="mi" role="menuitem" data-m="play" style="--i:5"><span id="mPlayL">Escuchar</span><svg viewBox="0 0 24 24" aria-hidden="true" id="mPlayI"><path d="M8 5v14l11-7z" class="fill"/></svg></button>
+      <button type="button" class="mi" role="menuitem" data-m="notes" style="--i:4"><span>Resaltados y notas</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button>
+      <button type="button" class="mi" role="menuitem" data-m="ai" style="--i:3"><span>Resumen con IA</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg></button>
+      <button type="button" class="mi" role="menuitem" data-m="set" style="--i:2"><span>Temas y configuraciones</span><b class="aa" aria-hidden="true">A<big>A</big></b></button>
+      <div class="m-row" style="--i:1">
+        <button type="button" class="mi round" role="menuitem" data-m="shelf" aria-label="Biblioteca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h3v16H5zM10 4h3v16h-3z"/><path d="m15.5 5 2.9-.8 3.6 15-2.9.8z"/></svg></button>
+        <button type="button" class="mi round" role="menuitem" data-m="layout" aria-label="Cambiar entre páginas y desplazamiento" id="mLayout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg></button>
+        <button type="button" class="mi round" role="menuitem" data-m="mark" aria-label="Marcar la frase actual"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-4-5 4z"/></svg></button>
+      </div>
+    </div>
+    <button type="button" class="m-round m-fab" id="mFab" aria-label="Opciones de lectura" aria-expanded="false" aria-controls="mMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14M5 12.5h14"/><circle cx="7" cy="17" r="1.1" class="fill"/><circle cx="12" cy="17" r="1.1" class="fill"/><circle cx="17" cy="17" r="1.1" class="fill"/></svg></button>
   </main>
 
   <!-- Notas -->
@@ -908,6 +988,7 @@ function updateProgress(frac){
 function updateMeta(){
   const n=S.keys.length;
   $('#meta').textContent=n?`Frase ${S.play.idx+1} de ${n} · tiempo aproximado`:'';
+  try{updMBar()}catch(e){}
   updateProgress();
 }
 function seekIdx(i){i=Math.max(0,Math.min(S.keys.length-1,i));S.play.on?speakAt(i):(S.play.idx=i,setNow(i,true),updateMeta(),saveProg())}
@@ -1367,7 +1448,7 @@ function updateAiHint(){
   const tn=aiTargetChapters().length;
   const parts=[];if(n)parts.push(`${n} resaltado${n>1?'s':''} ${scopeName()}`);if(full)parts.push(tn>1?`el texto de ${tn} capítulos`:'el texto del capítulo');if(d)parts.push(`${d} documento${d>1?'s':''}`);
   const hasMaterial=n||full||d;
-  let msg=!S.sample?(ONLINE?(SB.user?'Para usar la IA, abre tu cuenta (arriba de tu biblioteca) y agrega tu llave de Claude o de ChatGPT.':'Para usar la IA, toca «Inteligencia artificial» arriba de tu biblioteca y agrega tu llave de Claude o de ChatGPT.'):'La IA se activa al abrir esta página en claude.ai.'):!hasMaterial?'No hay material todavía: resalta algo, agrega un documento o incluye el texto del capítulo.':custom&&!prompt?'Escribe tu instrucción o elige un prompt guardado.':`${ONLINE?provName():'Claude'} usará ${parts.join(', ').replace(/, ([^,]*)$/,' y $1')}.`;
+  let msg=!S.sample?(ONLINE?(SB.user?'Para usar la IA, abre tu cuenta (arriba de tu biblioteca) y agrega tu llave de Claude, ChatGPT o Gemini (Gemini tiene plan gratuito).':'Para usar la IA, toca «Inteligencia artificial» arriba de tu biblioteca y agrega tu llave de Claude, ChatGPT o Gemini (Gemini tiene plan gratuito).'):'La IA se activa al abrir esta página en claude.ai.'):!hasMaterial?'No hay material todavía: resalta algo, agrega un documento o incluye el texto del capítulo.':custom&&!prompt?'Escribe tu instrucción o elige un prompt guardado.':`${ONLINE?provName():'Claude'} usará ${parts.join(', ').replace(/, ([^,]*)$/,' y $1')}.`;
   $('#aiHint').textContent=msg;
   $('#genBtn').disabled=!S.sample||!hasMaterial||(custom&&!prompt);
 }
@@ -1427,8 +1508,8 @@ const AI=Object.assign({tier:'default',effort:'auto'},ls.get('ai',{}));
 function renderAiOpts(){
   $$('#tierSeg button').forEach(b=>b.classList.toggle('on',b.dataset.t===AI.tier));
   $$('#effortSeg button').forEach(b=>b.classList.toggle('on',b.dataset.e===AI.effort));
-  let oa=false;try{oa=ONLINE&&aiProv()==='openai'}catch(e){} // AIKEY se define más abajo
-  $('#tierHint').textContent=`${oa?'ChatGPT':TIERS[AI.tier].m} · ${TIERS[AI.tier].h}`;
+  let pv=null;try{pv=ONLINE?aiProv():null}catch(e){} // AIKEY se define más abajo
+  $('#tierHint').textContent=`${pv&&pv!=='claude'?PROVS[pv].n:TIERS[AI.tier].m} · ${TIERS[AI.tier].h}`;
   const q=AI.tier==='quick';$$('#effortSeg button').forEach(b=>b.disabled=q);
   $('#effortHint').textContent=q?'La potencia Rápida no piensa antes de responder. Sube a Equilibrada o Máxima para ajustar el pensamiento.':EFFORTS[AI.effort];
   ls.set('ai',AI);
@@ -1500,7 +1581,7 @@ $('#fileIn').onchange=async e=>{
 };
 
 /* ---------- Navegación móvil ---------- */
-function showCol(id){$$('.col').forEach(c=>c.classList.toggle('show',c.id===id));$$('#mnav button').forEach(b=>b.classList.toggle('on',b.dataset.c===id&&(id!=='colRead'||(b.dataset.view==='shelf')===(VIEW!=='read'))))}
+function showCol(id){$$('.col').forEach(c=>c.classList.toggle('show',c.id===id));setTimeout(()=>{try{syncMRead()}catch(e){}},0);$$('#mnav button').forEach(b=>b.classList.toggle('on',b.dataset.c===id&&(id!=='colRead'||(b.dataset.view==='shelf')===(VIEW!=='read'))))}
 $$('#mnav button').forEach(b=>b.onclick=()=>{showCol(b.dataset.c);if(b.dataset.view)showView(b.dataset.view);else{$$('#mnav button').forEach(x=>x.classList.toggle('on',x===b))}});
 addEventListener('resize',()=>{tb.hidden=true});
 
@@ -1513,6 +1594,7 @@ function showView(v){
   togglePanel(false);toggleToc(false);tb.hidden=true;
   if(v==='shelf'){renderShelf();$('#shelfView').scrollTop=0}
   if(v==='read'&&isPaged())requestAnimationFrame(()=>relayout());
+  try{syncMRead()}catch(e){}
   $$('#mnav button').forEach(b=>b.classList.toggle('on',b.dataset.c==='colRead'&&(b.dataset.view==='shelf'?v!=='read':v==='read')));
 }
 function renderShelf(){
@@ -1582,7 +1664,7 @@ const PG={page:0,pages:1,step:1};
 const isPaged=()=>SET&&SET.layout==='paged'&&VIEW==='read';
 function layoutPaged(){
   const page=$('#pageBox'),r=$('#reader'),sc=$('#readScroll');
-  const sp=SET.spread||'auto',wide=sc.clientWidth,roomy=$('.app').classList.contains('focus')||$('.app').classList.contains('calm');
+  const sp=SET.spread||'auto',wide=sc.clientWidth,roomy=$('.app').classList.contains('focus')||$('.app').classList.contains('calm')||$('.app').classList.contains('mread');
   page.classList.toggle('spread',sp==='2'?wide>=720:sp==='1'?false:wide>=(roomy?900:1060));
   const cs=getComputedStyle(page);
   const padL=parseFloat(cs.paddingLeft),padR=parseFloat(cs.paddingRight),padT=parseFloat(cs.paddingTop),padB=parseFloat(cs.paddingBottom);
@@ -1611,6 +1693,7 @@ function updatePager(){
   $('#pgPrev').disabled=PG.page===0&&S.ch===0;$('#pgNext').disabled=PG.page>=PG.pages-1&&lastCh;
   const pct=progressPct(S.book)||0;
   $('#pager').textContent=`Página ${PG.page+1} de ${PG.pages} · ${pct}% del libro`;
+  try{updMBar()}catch(e){}
 }
 function relayout(){
   if(!isPaged()||!S.book||!S.book.chapters)return;
@@ -1694,6 +1777,75 @@ function setFocus(on){
   }catch(e){}
   tb.hidden=true;
 }
+
+/* ---------- Teléfono: lectura estilo Apple Books ---------- */
+const isPhone=()=>innerWidth<=900;
+/* Tableta: pantalla táctil hasta 1400 px (iPad vertical u horizontal). Se lee igual que en el teléfono, a hoja completa. */
+const isTablet=()=>!isPhone()&&innerWidth<=1400&&matchMedia('(pointer: coarse)').matches;
+function syncMRead(){
+  const on=(isPhone()?$('#colRead').classList.contains('show'):isTablet())&&VIEW==='read';
+  const app=$('.app'),was=app.classList.contains('mread');
+  app.classList.toggle('mread',on);
+  if(!on){closeMMenu(true);app.classList.remove('mhide')}
+  if(on!==was&&isPaged())requestAnimationFrame(()=>relayout());
+  updMBar();
+}
+function updMBar(){
+  if(!$('.app').classList.contains('mread')||!S.book)return;
+  const ch=S.book.chapters&&S.book.chapters[S.ch];
+  $('#mTop').textContent=ch?ch.title:(S.book.title||'');
+  const st=bookStats(S.book);if(!st){$('#mBot').textContent='';return}
+  let before=0;for(let i=0;i<S.ch;i++)before+=st.lens[i];
+  let frac;if(isPaged())frac=PG.pages>1?PG.page/(PG.pages-1):0;else{const sc=$('#readScroll');const m=sc.scrollHeight-sc.clientHeight;frac=m>0?sc.scrollTop/m:0}
+  const pct=Math.min(100,Math.round((before+frac*st.lens[S.ch])/st.total*100));
+  if(isPaged()){const left=PG.pages-PG.page-1;$('#mBot').textContent=`${PG.page+1} de ${PG.pages}`;$('#mTop').textContent=left>0&&left<=5?`${left} página${left>1?'s':''} y acaba el capítulo`:(ch?ch.title:'')}
+  else $('#mBot').textContent=`${pct}% del libro`;
+  $('#mToc').textContent=`Contenido · ${pct}%`;
+}
+let mbT=0;$('#readScroll').addEventListener('scroll',()=>{cancelAnimationFrame(mbT);mbT=requestAnimationFrame(updMBar)},{passive:true});
+function openMMenu(){
+  const app=$('.app');app.classList.remove('mhide');
+  $('#mPlayL').textContent=S.play.on?'Pausar':'Escuchar';
+  $('#mPlayI').innerHTML=S.play.on?'<path d="M7 5h4v14H7zm6 0h4v14h-4z" class="fill"/>':'<path d="M8 5v14l11-7z" class="fill"/>';
+  $('#mLayout').setAttribute('aria-label',SET.layout==='paged'?'Leer con desplazamiento':'Leer por páginas');
+  $('#mLayout').innerHTML=SET.layout==='paged'?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="7.5" height="14" rx="1.5"/><rect x="13" y="5" width="7.5" height="14" rx="1.5"/></svg>';
+  updMBar();togglePanel(false);toggleToc(false);
+  $('#mCatch').hidden=false;requestAnimationFrame(()=>app.classList.add('mmenu-open'));
+  $('#mFab').setAttribute('aria-expanded','true');$('#mMenu').setAttribute('aria-hidden','false');
+  setTimeout(()=>{const f=$('#mMenu .mi');f&&f.focus({preventScroll:true})},60);
+}
+function closeMMenu(now){
+  const app=$('.app');if(!app.classList.contains('mmenu-open')&&$('#mCatch').hidden)return;
+  app.classList.remove('mmenu-open');$('#mFab').setAttribute('aria-expanded','false');$('#mMenu').setAttribute('aria-hidden','true');
+  if(now)$('#mCatch').hidden=true;else setTimeout(()=>{if(!app.classList.contains('mmenu-open'))$('#mCatch').hidden=true},300);
+}
+$('#mFab').onclick=e=>{e.stopPropagation();$('.app').classList.contains('mmenu-open')?closeMMenu():openMMenu()};
+$('#mCatch').onclick=e=>{e.stopPropagation();closeMMenu()};
+$('#mX').onclick=e=>{e.stopPropagation();if(S.play.on)$('#play').click();showView('shelf')};
+$$('#mMenu .mi').forEach(b=>b.onclick=e=>{e.stopPropagation();const m=b.dataset.m;closeMMenu();
+  setTimeout(()=>{
+    if(m==='toc')toggleToc(true);
+    else if(m==='set')togglePanel(true);
+    else if(m==='play')$('#play').click();
+    else if(m==='notes'||m==='ai'){if(isPhone())showCol('colNotes');else $('.app').classList.add('peek');$(m==='ai'?'#tabAi':'#tabHl').click()}
+    else if(m==='shelf')showView('shelf');
+    else if(m==='layout'){SET.layout=SET.layout==='paged'?'scroll':'paged';applySet();toast(SET.layout==='paged'?'Lectura por páginas':'Lectura con desplazamiento')}
+    else if(m==='mark')$('#markBtn').click();
+  },m==='toc'||m==='set'?120:0)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('.app').classList.contains('mmenu-open'))closeMMenu()});
+/* Tocar el texto: en los bordes pasa la página (modo Páginas); en el centro muestra u oculta los botones. */
+$('#readScroll').addEventListener('click',e=>{
+  if(!$('.app').classList.contains('mread'))return;
+  const sel=getSelection();if(sel&&!sel.isCollapsed)return;
+  if(e.target.closest('a,button,input,textarea,select'))return;
+  if(!$('#setPanel').hidden||!$('#tocPanel').hidden){e.stopPropagation();togglePanel(false);toggleToc(false);return}
+  const x=e.clientX/innerWidth;
+  if(isPaged()&&(x<.26||x>.74)){e.stopPropagation();e.preventDefault();turn(x<.26?-1:1);return}
+  if(S.play.on&&e.target.closest('.s'))return; // escuchando: tocar una frase salta ahí
+  e.stopPropagation();$('.app').classList.toggle('mhide');
+},true);
+addEventListener('resize',()=>{clearTimeout(window.__mrT);window.__mrT=setTimeout(syncMRead,120)});
+setTimeout(syncMRead,0);
 $('#focusBtn').onclick=()=>setFocus(!focusOn);
 /* Ocultar / mostrar la biblioteca (panel izquierdo) */
 function setLibOff(off,save=true){
@@ -1770,7 +1922,8 @@ $('#sizeIn').oninput=e=>{SET.size=+e.target.value;applySet()};
 $('#sizeDn').onclick=()=>{SET.size=Math.max(14,SET.size-1);applySet()};
 $('#sizeUp').onclick=()=>{SET.size=Math.min(30,SET.size+1);applySet()};
 $('#resetSet').onclick=()=>{SET=JSON.parse(JSON.stringify(DEF));applySet();toast('Ajustes restablecidos')};
-function togglePanel(open){const p=$('#setPanel');p.hidden=!open;$('#setBtn').setAttribute('aria-expanded',String(open));if(open)toggleToc(false)}
+function closeSheet(p){if(p.hidden)return;if($('.app').classList.contains('mread')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){p.classList.add('closing');setTimeout(()=>{p.hidden=true;p.classList.remove('closing')},210)}else p.hidden=true}
+function togglePanel(open){const p=$('#setPanel');if(open){p.classList.remove('closing');p.hidden=false}else closeSheet(p);$('#setBtn').setAttribute('aria-expanded',String(open));if(open)toggleToc(false)}
 $('#setBtn').onclick=e=>{e.stopPropagation();togglePanel($('#setPanel').hidden)};
 document.addEventListener('click',e=>{
   if(!$('#setPanel').hidden&&!e.target.closest('#setPanel,#setBtn'))togglePanel(false);
@@ -1780,7 +1933,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){togglePanel(false);
 
 /* ---------- Índice ---------- */
 function tocOf(b){return (b&&b.toc&&b.toc.length)?b.toc:(b&&b.chapters?b.chapters.map((c,i)=>({title:c.title,depth:0,ch:i,p:0})):[])}
-function toggleToc(open){const p=$('#tocPanel');p.hidden=!open;$('#tocBtn').setAttribute('aria-expanded',String(open));if(open){togglePanel(false);renderToc();const cur=$('#tocList .cur');if(cur)cur.scrollIntoView({block:'center'})}}
+function toggleToc(open){const p=$('#tocPanel');if(open){p.classList.remove('closing');p.hidden=false}else closeSheet(p);$('#tocBtn').setAttribute('aria-expanded',String(open));if(open){togglePanel(false);renderToc();const cur=$('#tocList .cur');if(cur)cur.scrollIntoView({block:'center'})}}
 $('#tocBtn').onclick=e=>{e.stopPropagation();toggleToc($('#tocPanel').hidden)};
 function currentTocIndex(toc){
   const curP=(S.keys[S.play.idx]||'0.0').split('.')[0]|0;let best=-1;
@@ -1844,6 +1997,12 @@ const PROVS={
       ['Carga saldo','Ve a <a href="https://platform.openai.com/settings/organization/billing/overview" target="_blank" rel="noopener">Settings → Billing</a>, toca <b>Add payment details</b> y luego <b>Add to credit balance</b> (desde 5 USD). Puedes dejar apagada la recarga automática.'],
       ['Crea tu llave','Ve a <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">API keys</a>, toca <b>Create new secret key</b>, ponle de nombre <b>Atril</b>, deja los permisos en <b>All</b> y toca <b>Create secret key</b>.'],
       ['Cópiala y pégala aquí','Toca <b>Copy</b>. Empieza con <code>sk-</code> (normalmente <code>sk-proj-</code>) y solo se muestra una vez: si la pierdes, crea otra.']]},
+  gemini:{n:'Gemini',slot:'gmKey',re:/^[\w-]{30,}$/,pre:'AIza',hdr:'x-atril-gm-key',org:'Google',free:true,
+    steps:[
+      ['Entra a Google AI Studio','Abre <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> e inicia sesión con tu cuenta de Google (la de Gmail sirve). Acepta los términos la primera vez.'],
+      ['Crea tu llave','Toca <b>Create API key</b> (o <b>Crear clave de API</b>). Si te pide un proyecto, elige el que aparece o toca <b>Create API key in new project</b>.'],
+      ['Cópiala y pégala aquí','Toca el ícono de copiar junto a la llave. Normalmente empieza con <code>AIza</code>.'],
+      ['Es gratis, con límites','No necesitas tarjeta: el plan gratuito tiene un límite de consultas por minuto y por día. Ten en cuenta que en el plan gratuito Google puede usar lo que envías para mejorar sus productos; si eso te importa, activa la facturación en AI Studio.']]},
 };
 const AIKEY={
   uid(){return (SB&&SB.user&&SB.user.id)||'local'},
@@ -1854,57 +2013,81 @@ const AIKEY={
   pref(){try{return localStorage.getItem('atril:aiProv:'+this.uid())||''}catch(e){return ''}},
   setPref(p){try{localStorage.setItem('atril:aiProv:'+this.uid(),p)}catch(e){}},
 };
-const canUse=p=>p==='claude'?!!(AIKEY.get('claude')||(S.cfg&&S.cfg.ai)):!!AIKEY.get('openai');
-function aiProv(){const pr=AIKEY.pref();if(pr&&canUse(pr))return pr;if(canUse('claude'))return 'claude';if(canUse('openai'))return 'openai';return null}
+/* Con cuentas, las llaves viven cifradas en la cuenta (servidor) y siguen a la persona en todos sus dispositivos. */
+const ACC=()=>!!(ONLINE&&SB&&SB.user&&S.cfg&&S.cfg.mode==='accounts'&&S.cfg.me);
+const accKeys=()=>(ACC()&&S.cfg.me.aiKeys)||{};
+const hasKey=p=>ACC()?!!accKeys()[p]:!!AIKEY.get(p);
+const maskOf=p=>ACC()?(accKeys()[p]||{}).mask||'':AIKEY.mask(AIKEY.get(p));
+const getPref=()=>ACC()?S.cfg.me.aiPref||'':AIKEY.pref();
+async function keysApi(method,body,q){
+  const r=await fetch('/api/keys'+(q||''),{method,headers:API.headers(body?{'content-type':'application/json'}:{}),body:body?JSON.stringify(body):undefined});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||'No se pudo guardar en tu cuenta.');
+  Object.assign(S.cfg.me,{aiKeys:j.aiKeys||{},aiPref:j.aiPref||null});return j;
+}
+async function setPref(p){if(ACC()){try{await keysApi('POST',{pref:p})}catch(e){toast(e.message)}}else AIKEY.setPref(p)}
+/* Si alguien ya había pegado llaves en este dispositivo, se suben a su cuenta una sola vez. */
+async function migrateLocalKeys(){
+  if(!ACC())return;let moved=0;
+  for(const p of Object.keys(PROVS)){const k=AIKEY.get(p);if(!k)continue;
+    if(!accKeys()[p]){try{await keysApi('POST',{provider:p,key:k});moved++}catch(e){continue}}
+    AIKEY.set('',p)}
+  if(moved){refreshAi();toast('Tus llaves de IA ahora están guardadas en tu cuenta.')}
+}
+const canUse=p=>p==='claude'?!!(hasKey('claude')||(S.cfg&&S.cfg.ai)):hasKey(p);
+function aiProv(){const pr=getPref();if(pr&&PROVS[pr]&&canUse(pr))return pr;return Object.keys(PROVS).find(canUse)||null}
 const provName=()=>(PROVS[aiProv()]||PROVS.claude).n;
 function refreshAi(){S.sample=aiProv()?makeSample():null;try{updateAiHint();renderAiOpts()}catch(e){}renderAccount()}
 function aiRowsHTML(){
   const srv=!!(S.cfg&&S.cfg.ai),cur=aiProv();
-  const row=p=>{const k=AIKEY.get(p);const st=k?`Tu llave · ${esc(AIKEY.mask(k))}`:p==='claude'&&srv?'Usas la compartida de Atril':'Sin configurar';
+  const row=p=>{const k=hasKey(p);const st=k?`Tu llave · ${esc(maskOf(p))}`:p==='claude'&&srv?'Usas la compartida de Atril':PROVS[p].free?'Sin configurar · tiene plan gratuito':'Sin configurar';
     return `<div class="acct-key"><span><b>${PROVS[p].n}</b>${st}</span><button class="btn sm${k?' ghost':''}" type="button" data-key="${p}">${k?'Cambiar':'Agregar'}</button></div>`};
-  const both=canUse('claude')&&canUse('openai');
-  return row('claude')+row('openai')+(both?`<div class="acct-pick"><span class="label">Usar para resúmenes</span><div class="seg" id="provSeg"><button type="button" data-p="claude" class="${cur==='claude'?'on':''}">Claude</button><button type="button" data-p="openai" class="${cur==='openai'?'on':''}">ChatGPT</button></div></div>`:'')
-    +(cur?'':'<p class="hint" style="margin:0">Agrega una llave de Claude o de ChatGPT para activar los resúmenes con IA.</p>');
+  const usable=Object.keys(PROVS).filter(canUse);
+  return Object.keys(PROVS).map(row).join('')+(usable.length>1?`<div class="acct-pick"><span class="label">Usar para resúmenes</span><div class="seg" id="provSeg">${usable.map(p=>`<button type="button" data-p="${p}" class="${cur===p?'on':''}">${PROVS[p].n}</button>`).join('')}</div></div>`:'')
+    +(cur?'':'<p class="hint" style="margin:0">Agrega una llave para activar los resúmenes con IA. Gemini tiene un plan gratuito.</p>');
 }
 function wireAiRows(root,close){
   root.querySelectorAll('[data-key]').forEach(b=>b.onclick=()=>{close&&close();openAiKey(b.dataset.key)});
-  root.querySelectorAll('#provSeg button').forEach(b=>b.onclick=()=>{AIKEY.setPref(b.dataset.p);refreshAi();root.querySelectorAll('#provSeg button').forEach(x=>x.classList.toggle('on',x===b));toast(`Los resúmenes se harán con ${PROVS[b.dataset.p].n}.`)});
+  root.querySelectorAll('#provSeg button').forEach(b=>b.onclick=async()=>{await setPref(b.dataset.p);refreshAi();root.querySelectorAll('#provSeg button').forEach(x=>x.classList.toggle('on',x===b));toast(`Los resúmenes se harán con ${PROVS[b.dataset.p].n}.`)});
 }
 function openAiSettings(){
   const ov=overlay(`<div class="gate-card acct-card" role="dialog" aria-modal="true" aria-labelledby="aiSetT"><button type="button" class="gate-x" data-close aria-label="Cerrar">×</button>
-    <b class="gate-logo">Atril</b><h2 id="aiSetT">Inteligencia artificial</h2><p>Usa tu propia cuenta de Claude o de ChatGPT para los resúmenes.</p><section class="acct-sec">${aiRowsHTML()}</section></div>`,{closable:true});
+    <b class="gate-logo">Atril</b><h2 id="aiSetT">Inteligencia artificial</h2><p>Usa tu propia cuenta de Claude, ChatGPT o Gemini para los resúmenes.</p><section class="acct-sec">${aiRowsHTML()}</section></div>`,{closable:true});
   wireAiRows(ov,()=>ov.remove());
 }
 function openAiKey(p='claude'){
-  const P=PROVS[p],cur=AIKEY.get(p),other=p==='claude'?'openai':'claude';
+  const P=PROVS[p],cur=hasKey(p),acc=ACC(),others=Object.keys(PROVS).filter(x=>x!==p),org=P.org||(p==='claude'?'Anthropic':'OpenAI');
   const ov=overlay(`<form class="gate-card ak-card" id="akForm"><button type="button" class="gate-x" data-close aria-label="Cerrar">×</button><b class="gate-logo">Atril</b><h2>Tu llave de ${P.n}</h2>
-    <p>Con tu propia llave, los resúmenes los paga tu cuenta de ${p==='claude'?'Anthropic':'OpenAI'} y no tienes límite de consultas en Atril. Se guarda solo en este dispositivo: si usas Atril en otro, pégala también ahí.</p>
-    ${cur?`<p style="font-size:12.5px">Llave actual: <code>${esc(AIKEY.mask(cur))}</code></p>`:''}
-    <details class="ak-steps"${cur?'':' open'}><summary>Cómo conseguir tu llave (4 pasos)</summary><ol>${P.steps.map(([t,d])=>`<li><b>${t}.</b> ${d}</li>`).join('')}</ol></details>
+    <p>${P.free?`Con tu propia llave, los resúmenes salen de tu cuenta de ${org} (gratis dentro de su límite) y no cuentan para el límite de Atril.`:`Con tu propia llave, los resúmenes los paga tu cuenta de ${org} y no tienes límite de consultas en Atril.`} ${acc?'Se guarda cifrada en tu cuenta de Atril: la tendrás en todos tus dispositivos sin volver a pegarla.':'Se guarda solo en este dispositivo: si usas Atril en otro, pégala también ahí.'}</p>
+    ${cur?`<p style="font-size:12.5px">Llave actual: <code>${esc(maskOf(p))}</code></p>`:''}
+    <details class="ak-steps"${cur?'':' open'}><summary>Cómo conseguir tu llave (${P.steps.length} pasos)</summary><ol>${P.steps.map(([t,d])=>`<li><b>${t}.</b> ${d}</li>`).join('')}</ol></details>
     <label class="label" for="akIn">${cur?'Reemplazar por otra llave':'Pega tu llave'}</label><input id="akIn" type="password" autocomplete="off" spellcheck="false" placeholder="${P.pre}…">
     <span class="gate-err" id="akErr" hidden></span>
     <button class="btn primary" type="submit">Probar y guardar</button>${cur?'<button class="btn ghost" type="button" id="akDel">Quitar mi llave</button>':''}
-    <button type="button" class="ak-switch" id="akOther">¿Prefieres ${PROVS[other].n}? Usar una llave de ${PROVS[other].n}</button></form>`,{closable:true});
+    <p class="ak-others">¿Prefieres otra? ${others.map(o=>`<button type="button" class="ak-switch" data-other="${o}">${PROVS[o].n}</button>`).join(' · ')}</p></form>`,{closable:true});
   setTimeout(()=>ov.querySelector('#akIn').focus(),50);
   const er=ov.querySelector('#akErr'),show=m=>{er.hidden=false;er.textContent=m};
-  ov.querySelector('#akOther').onclick=()=>{ov.remove();openAiKey(other)};
-  if(cur)ov.querySelector('#akDel').onclick=()=>{AIKEY.set('',p);ov.remove();refreshAi();toast(`Quitaste tu llave de ${P.n}.`)};
+  ov.querySelectorAll('[data-other]').forEach(b=>b.onclick=()=>{ov.remove();openAiKey(b.dataset.other)});
+  if(cur)ov.querySelector('#akDel').onclick=async()=>{if(acc){try{await keysApi('DELETE',null,'?provider='+p)}catch(e){show(e.message);return}}else AIKEY.set('',p);ov.remove();refreshAi();toast(`Quitaste tu llave de ${P.n}.`)};
   ov.querySelector('#akForm').onsubmit=async e=>{e.preventDefault();const v=ov.querySelector('#akIn').value.trim().replace(/\s+/g,'');
-    if(p==='openai'&&v.startsWith('sk-ant-')){show('Esa es una llave de Claude. Pégala en «Llave de Claude».');return}
+    if(p!=='claude'&&v.startsWith('sk-ant-')){show('Esa es una llave de Claude. Pégala en la fila de Claude.');return}
+    if(p==='claude'&&/^AIza/.test(v)||p==='openai'&&/^AIza/.test(v)){show('Esa parece una llave de Gemini. Pégala en la fila de Gemini.');return}
+    if(p==='gemini'&&/^sk-/.test(v)){show('Esa parece una llave de Claude o ChatGPT, no de Gemini.');return}
     if(!P.re.test(v)){show(`Esa no parece una llave de ${P.n}: debe empezar con ${P.pre}.`);return}
     const btn=ov.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Probando…';
-    let ok=false,msg='';try{const r=await fetch('/api/ai',{method:'POST',headers:API.headers({'content-type':'application/json',[P.hdr]:v}),body:JSON.stringify({test:true,provider:p==='openai'?'openai':undefined})});const j=await r.json().catch(()=>({}));ok=r.ok;msg=j.error||''}catch(_){msg='No hay conexión. Revisa tu internet.'}
+    let ok=false,msg='';
+    if(acc){try{await keysApi('POST',{provider:p,key:v});ok=true}catch(err){msg=err.message||'No hay conexión. Revisa tu internet.'}}
+    else try{const r=await fetch('/api/ai',{method:'POST',headers:API.headers({'content-type':'application/json',[P.hdr]:v}),body:JSON.stringify({test:true,provider:p==='claude'?undefined:p})});const j=await r.json().catch(()=>({}));ok=r.ok;msg=j.error||''}catch(_){msg='No hay conexión. Revisa tu internet.'}
     btn.disabled=false;btn.textContent='Probar y guardar';
     if(!ok){show(msg||'No se pudo comprobar la llave.');return}
-    AIKEY.set(v,p);AIKEY.setPref(p);ov.remove();refreshAi();toast(`Llave guardada: los resúmenes se harán con ${P.n}.`)};
+    if(!acc){AIKEY.set(v,p);AIKEY.setPref(p)}ov.remove();refreshAi();toast(`Llave guardada: los resúmenes se harán con ${P.n}.`)};
 }
 function makeSample(){
   const memo=new Map();
   const f=async(input,o={})=>{
     const key=JSON.stringify([aiProv(),input,o.modelTier||'default',o.effort||'']);
     if(o.cache!==false&&memo.has(key)){const t=memo.get(key);o.onText&&o.onText({text:t,delta:t});return {text:t,truncated:false,modelTierApplied:o.modelTier||'default'}}
-    const prov=aiProv()||'claude',own=AIKEY.get(prov),h={'content-type':'application/json'};if(own)h[PROVS[prov].hdr]=own;
-    const r=await fetch('/api/ai',{method:'POST',headers:API.headers(h),body:JSON.stringify({input,tier:o.modelTier||'default',effort:o.effort||null,provider:prov==='openai'?'openai':undefined}),signal:o.signal});
+    const prov=aiProv()||'claude',own=ACC()?'':AIKEY.get(prov),h={'content-type':'application/json'};if(own)h[PROVS[prov].hdr]=own;
+    const r=await fetch('/api/ai',{method:'POST',headers:API.headers(h),body:JSON.stringify({input,tier:o.modelTier||'default',effort:o.effort||null,provider:prov==='claude'?undefined:prov}),signal:o.signal});
     if(!r.ok){let j={};try{j=await r.json()}catch(e){}if(r.status===401)onUnauthorized();throw {code:j.code||(r.status===429?'rate_limited':'error'),message:j.error||''}}
     const rd=r.body.getReader(),dec=new TextDecoder();let text='';const ERR='\u0000ERR:';
     for(;;){const {done,value}=await rd.read();if(done)break;const d=dec.decode(value,{stream:true});text+=d;const shown=text.split(ERR)[0];o.onText&&o.onText({text:shown,delta:d})}
@@ -1919,7 +2102,7 @@ const getConfig=async()=>(await fetch('/api/config',{headers:API.headers()})).js
 function onUnauthorized(){if(SB.client){toast('Tu sesión expiró. Vuelve a entrar.');SB.client.auth.signOut()}else askAccess(true)}
 async function setupServices(cfg,again){
   $('#storeHint').textContent=SB.user?'Tu biblioteca se guarda en tu cuenta: la ves en todos tus dispositivos.':'Tus libros y resaltados se guardan en este navegador. Usa «Respaldo» para pasarlos a otro dispositivo.';
-  refreshAi();
+  refreshAi();migrateLocalKeys();
   const any=cfg.voices&&(cfg.voices.google||cfg.voices.azure||cfg.voices.elevenlabs);
   if(!any)return;
   const cached=ls.get('cloudVoices',null);
@@ -2116,7 +2299,7 @@ function renderAccount(){
   if(!SB.user||!me){
     // Modo con código de acceso: solo el acceso a la configuración de IA.
     if(ONLINE&&S.booted){const pv=aiProv();box.hidden=false;box.classList.add('acct-user');
-      box.innerHTML=`<button type="button" class="acct-open" id="acctAi"><span class="acct-id"><b>Inteligencia artificial</b><span>${pv?`Resúmenes con ${PROVS[pv].n}`:'Agrega tu llave de Claude o ChatGPT'}</span></span><svg class="i acct-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 18 10 19.4l7.4-7.4L10 4.6 8.6 6l6 6z"/></svg></button>`;
+      box.innerHTML=`<button type="button" class="acct-open" id="acctAi"><span class="acct-id"><b>Inteligencia artificial</b><span>${pv?`Resúmenes con ${PROVS[pv].n}`:'Agrega tu llave de Claude, ChatGPT o Gemini'}</span></span><svg class="i acct-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 18 10 19.4l7.4-7.4L10 4.6 8.6 6l6 6z"/></svg></button>`;
       $('#acctAi').onclick=openAiSettings}else box.hidden=true;
     return}
   box.hidden=false;box.classList.add('acct-user');
@@ -2129,7 +2312,7 @@ function renderAccount(){
 /* Ventana «Mi cuenta»: uso del mes, llave de Claude, contraseña, usuarios y cerrar sesión */
 function openAccount(){
   const me=S.cfg&&S.cfg.me;if(!me)return;
-  const own=!!AIKEY.get(aiProv()||'claude');
+  const own=hasKey(aiProv()||'claude');
   const u=me.usage||{tts_chars:0,ai_calls:0},L=me.limits;
   const pct=L?Math.min(100,Math.round(u.tts_chars/L.ttsChars*100)):0;
   const ini=esc(((me.name||me.email||'?').trim()[0]||'?').toUpperCase());
