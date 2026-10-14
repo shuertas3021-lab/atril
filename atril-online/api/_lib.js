@@ -4,7 +4,8 @@ const digest = (s) => createHash('sha256').update(String(s)).digest();
 export const safeEqual = (a, b) => timingSafeEqual(digest(a), digest(b));
 
 /* ---------- Configuración ---------- */
-const SB_URL = () => (process.env.SUPABASE_URL || '').replace(/\/+$/, '');
+// Acepta la URL aunque la peguen con /rest/v1 o una barra al final: solo se usa el dominio.
+const SB_URL = () => { const u = (process.env.SUPABASE_URL || '').trim(); try { return u ? new URL(u).origin : ''; } catch { return u.replace(/\/+$/, ''); } };
 export const pubKey = () => process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '';
 const secretKey = () => process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 /** Modo cuentas: cada persona se registra con su correo (requiere Supabase). */

@@ -58,7 +58,25 @@ button{cursor:pointer}
 .label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .brand{padding:18px 18px 12px;display:flex;align-items:baseline;gap:8px}
 .brand b{font-family:var(--f-read);font-size:22px;font-weight:600;letter-spacing:-.01em}
-.brand span{color:var(--muted);font-size:12px}
+.brand span{color:var(--muted);font-size:12px;white-space:nowrap}
+/* Ocultar la biblioteca hacia la izquierda */
+.lib-tog{margin-left:auto;align-self:center;width:32px;height:32px;flex:none;border:0;background:transparent;border-radius:8px;color:var(--muted);display:grid;place-items:center;padding:0;cursor:pointer;transition:background-color .15s,color .15s}
+.lib-tog:hover{background:var(--soft);color:var(--ink)}
+.lib-tog:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.lib-tog svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.lib-show{display:none;margin-left:-6px}
+@media (min-width:901px){
+  .app{transition:grid-template-columns .42s cubic-bezier(.22,.75,.25,1)}
+  #colLib{overflow:hidden;transition:opacity .3s ease,transform .42s cubic-bezier(.22,.75,.25,1),visibility 0s linear 0s}
+  #colLib>*{min-width:230px}
+  .app.lib-off{grid-template-columns:0px minmax(0,1fr) 380px}
+  .app.lib-off #colLib{opacity:0;transform:translateX(-36px);pointer-events:none;border-right-color:transparent;visibility:hidden;transition:opacity .3s ease,transform .42s cubic-bezier(.22,.75,.25,1),visibility 0s linear .42s}
+  .app.lib-off .lib-show{display:grid}
+  .app.focus .lib-show,.app.calm .lib-show{display:none}
+}
+@media (min-width:901px) and (max-width:1100px){.app.lib-off{grid-template-columns:0px minmax(0,1fr) 330px}}
+@media (prefers-reduced-motion:reduce){.app,#colLib{transition:none!important}}
+@media (max-width:900px){.lib-tog{display:none!important}}
 .lib{padding:0 12px 16px;display:flex;flex-direction:column;gap:14px}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 12px;display:inline-flex;align-items:center;gap:6px;justify-content:center}
 .btn:hover{border-color:var(--accent)}
@@ -93,6 +111,8 @@ textarea{resize:vertical}
 .reader p.h{font-weight:600;font-size:1.1em;margin-top:1.4em}
 .s{border-radius:3px;transition:background-color .15s;cursor:text;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .s.amarillo{background:var(--hl-amarillo)} .s.verde{background:var(--hl-verde)} .s.rosa{background:var(--hl-rosa)} .s.azul{background:var(--hl-azul)}
+.reader mark.hlm{color:inherit;border-radius:2px;padding:0;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.reader mark.hlm.amarillo{background:var(--hl-amarillo)}.reader mark.hlm.verde{background:var(--hl-verde)}.reader mark.hlm.rosa{background:var(--hl-rosa)}.reader mark.hlm.azul{background:var(--hl-azul)}
 .s.now{box-shadow:inset 0 -2px 0 var(--accent);background-image:linear-gradient(var(--now),var(--now))}
 .empty{color:var(--muted);text-align:center;padding:48px 16px;font-family:var(--f-read)}
 .player{border-top:1px solid var(--line);background:var(--surface);padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -187,12 +207,59 @@ table.adm .num{text-align:right;font-variant-numeric:tabular-nums;white-space:no
 .acct-id span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .acct-use{display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .acct-acts{display:flex;flex-wrap:wrap;gap:4px}
+.acct.acct-user{padding:0}
+.acct-open{display:flex;align-items:center;gap:10px;width:100%;min-width:0;padding:12px;border:0;background:transparent;border-radius:10px;text-align:left;cursor:pointer;color:inherit;font:inherit}
+.acct-open:hover{background:var(--soft)}
+.acct-open:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.acct-open .acct-id{flex:1}
+.acct-chev{width:18px;height:18px;color:var(--muted);flex:none}
+.acct-av.lg{width:44px;height:44px;font-size:18px}
+.acct-card{gap:16px}
+.acct-card .acct-id b{font-size:16px}
+.acct-sec{display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px solid var(--line)}
+.acct-sec .acct-key{border-top:0;padding-top:0}
+.acct-list{gap:2px}
+.acct-item{display:block;width:100%;text-align:left;border:0;background:transparent;padding:10px 8px;border-radius:8px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.acct-item:hover{background:var(--soft)}
+.acct-item.danger{color:var(--danger)}
+.acct-pick{display:flex;flex-direction:column;gap:6px;margin-top:2px}
+.acct-sec .acct-key+.acct-key{padding-top:8px;border-top:1px dashed var(--line)}
+.ak-card{width:min(460px,100%);max-height:calc(100dvh - 32px);overflow:auto}
+.ak-steps{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.5}
+.ak-steps summary{cursor:pointer;font-weight:600;color:var(--ink)}
+.ak-steps ol{margin:8px 0 2px;padding-left:20px;display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+.ak-steps li b{color:var(--ink)}
+.ak-steps a{color:var(--accent);font-weight:600}
+.ak-steps code,.ak-card code{font-size:12px;background:var(--bg);padding:1px 5px;border-radius:4px}
+.ak-switch{border:0;background:transparent;color:var(--accent);font:inherit;font-size:13px;padding:4px;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.acct-key{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:8px;border-top:1px solid var(--line)}
+.acct-key>span{display:flex;flex-direction:column;min-width:0;font-size:11.5px;color:var(--muted)}
+.acct-key>span b{font-size:12.5px;color:var(--ink);font-weight:600}
+#acctBox>.acct-key:first-child{border-top:0;padding-top:0}
 .gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;padding:16px}
 .gate-card{width:min(380px,100%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px 24px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px -24px rgba(0,0,0,.35)}
 .gate-card h2{font-family:var(--f-read);font-size:22px;margin:4px 0 0;font-weight:600}
 .gate-card p{margin:0 0 6px;color:var(--muted);font-size:13.5px;line-height:1.5}
 .gate-card input{background:var(--field);border:1px solid var(--field-line);border-radius:8px;padding:10px 12px;font-size:16px}
 .gate-logo{font-family:var(--f-read);font-size:20px;color:var(--accent)}
+.pw-wrap{position:relative;display:flex}
+.pw-wrap>input{flex:1;min-width:0;padding-right:46px!important}
+.pw-eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:38px;height:34px;border:0;background:transparent;color:var(--muted);border-radius:6px;display:grid;place-items:center;padding:0;cursor:pointer}
+.pw-eye:hover{color:var(--ink)}
+.pw-eye:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.pw-eye svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* Barra de avance del audio */
+.aprog{flex-basis:100%;display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin:-2px 0 2px}
+.aprog span{min-width:44px}
+.aprog span:last-child{text-align:right}
+.aprog input{flex:1;min-width:0;height:18px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;--p:0%}
+.aprog input::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,var(--accent) var(--p),var(--line) var(--p))}
+.aprog input::-moz-range-track{height:4px;border-radius:2px;background:var(--line)}
+.aprog input::-moz-range-progress{height:4px;border-radius:2px;background:var(--accent)}
+.aprog input::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;margin-top:-4.5px;border-radius:50%;background:var(--accent);border:0;transition:transform .15s}
+.aprog input::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--accent);border:0}
+.aprog input:hover::-webkit-slider-thumb,.aprog input:active::-webkit-slider-thumb{transform:scale(1.25)}
+.aprog input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 .gate-err{color:var(--danger);font-size:13px}
 .mnav{display:none}
 #colRead{position:relative}
@@ -271,6 +338,20 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .app.focus .page{box-shadow:none;background:transparent;margin-top:8px}
 .app.focus ~ .mnav{display:none}
 .app.focus .scroll{scrollbar-width:thin}
+.app.focus.paged .page{background:var(--surface);box-shadow:0 1px 0 var(--line),0 10px 30px -18px rgba(0,0,0,.25)}
+.app.focus.paged .page.spread,.app.calm.paged .page.spread{max-width:min(1480px,calc(100% - 48px))}
+/* Modo concentración: al escuchar se ocultan los paneles; al resaltar se asoma el de notas */
+@media (min-width:901px){
+  .app.calm{grid-template-columns:minmax(0,1fr)}
+  .app.calm #colLib,.app.calm #colNotes{display:none}
+  .app.calm .rhead{border-bottom-color:transparent}
+  .app.peek #colNotes{display:flex!important;position:fixed;top:0;right:0;bottom:0;width:min(380px,92vw);z-index:60;border-left:1px solid var(--line);box-shadow:-24px 0 48px -24px rgba(0,0,0,.4);animation:peekIn .26s cubic-bezier(.22,.75,.25,1)}
+}
+@keyframes peekIn{from{transform:translateX(100%)}to{transform:none}}
+.peek-x{display:none;margin-left:auto;align-self:center;width:30px;height:30px;border:0;background:transparent;border-radius:50%;font-size:20px;line-height:1;color:var(--muted);padding:0}
+.peek-x:hover{background:var(--soft);color:var(--ink)}
+.app.peek .peek-x{display:block}
+@media (prefers-reduced-motion:reduce){.app.peek #colNotes{animation:none}}
 .setp{position:absolute;z-index:25;top:58px;right:12px;width:min(330px,calc(100% - 24px));max-height:calc(100% - 140px);overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 40px -12px rgba(0,0,0,.35);padding:14px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
 .setp .grp2{display:flex;flex-direction:column;gap:7px}
 .bgs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
@@ -301,6 +382,13 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
   .mnav button{flex:1;border:0;background:transparent;padding:10px 4px 12px;font-size:12px;font-weight:600;color:var(--muted)}
   .mnav button.on{color:var(--accent)}
   .player .meta{order:9;flex-basis:100%}
+  /* Teléfono escuchando: solo el texto y la barra de reproducción abajo */
+  .app.calm{height:100%}
+  .app.calm ~ .mnav{display:none}
+  .app.calm .rhead,.app.calm .setp{display:none}
+  .app.calm #voice,.app.calm #testVoice,.app.calm .player .meta{display:none}
+  .app.calm .player{padding:8px 14px calc(10px + env(safe-area-inset-bottom,0px));justify-content:center;gap:14px}
+  .app.calm .page{margin-top:max(12px,env(safe-area-inset-top,0px))}
 }
 @media (prefers-reduced-motion:reduce){.s{transition:none}}
 </style>
@@ -308,7 +396,7 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 <div class="app">
   <!-- Biblioteca -->
   <aside class="col" id="colLib">
-    <div class="brand"><b>Atril</b><span>leer · escuchar · resaltar</span></div>
+    <div class="brand"><b>Atril</b><span>leer · escuchar · resaltar</span><button type="button" class="lib-tog" id="libHide" aria-label="Ocultar biblioteca" aria-controls="colLib" aria-expanded="true" title="Ocultar biblioteca"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9 4.5v15"/><path d="m15.5 9.5-2.5 2.5 2.5 2.5"/></svg></button></div>
     <div class="acct" id="acctBox" hidden></div>
     <div class="scroll"><div class="lib">
       <div style="display:flex;flex-direction:column;gap:6px">
@@ -347,6 +435,7 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
   <!-- Lectura -->
   <main class="col show" id="colRead">
     <div class="rhead">
+      <button type="button" class="lib-tog lib-show" id="libShow" aria-label="Mostrar biblioteca" aria-controls="colLib" aria-expanded="false" title="Mostrar biblioteca"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M9 4.5v15"/><path d="m13 9.5 2.5 2.5-2.5 2.5"/></svg></button>
       <div class="ttl"><span class="label" id="bookAuthor">Libro</span><b id="bookTitle">—</b></div>
       <button class="btn sm" id="tocBtn" aria-expanded="false" aria-controls="tocPanel"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h2v2H3zm4 0h14v2H7zM3 11h2v2H3zm4 0h14v2H7zm-4 6h2v2H3zm4 0h14v2H7z"/></svg>Índice</button>
       <button class="btn ghost sm" id="prevCh" aria-label="Capítulo anterior">‹</button>
@@ -366,6 +455,11 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
       <div class="grp2" id="turnGrp"><span class="label">Efecto al pasar la página</span>
         <div class="seg" id="turnOpts"><button data-t="curl">Hoja</button><button data-t="slide">Deslizar</button><button data-t="cover">Cubrir</button><button data-t="fade">Desvanecer</button><button data-t="none">Ninguno</button></div>
         <span class="hint" id="turnHint"></span></div>
+      <div class="grp2"><span class="label">Páginas a la vista</span>
+        <div class="seg" id="spreadOpts"><button data-sp="auto">Automático</button><button data-sp="1">Una</button><button data-sp="2">Dos</button></div>
+        <span class="hint" id="spreadHint"></span></div>
+      <div class="grp2"><span class="label">Modo concentración</span>
+        <label class="chk"><input type="checkbox" id="calmIn"><span>Ocultar los paneles laterales mientras escuchas. Si resaltas algo, aparece el panel de resaltados; vuelven al pausar.</span></label></div>
       <div class="grp2"><span class="label">Fondo</span>
         <div class="bgs" id="bgOpts">
           <button data-bg="system"><i style="background:linear-gradient(135deg,#FFFFFF 50%,#182029 50%)"></i>Sistema</button>
@@ -409,6 +503,7 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
     </div></div>
     <div class="scroll" id="detailView" hidden><div class="detail" id="detailBody"></div></div>
     <div class="player">
+      <div class="aprog"><span id="apEl">0:00</span><input type="range" id="apBar" min="0" max="1000" value="0" step="1" aria-label="Avance del capítulo"><span id="apLeft">-0:00</span></div>
       <button class="ic btn" id="back" aria-label="Frase anterior"><svg class="i" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
       <button class="play" id="play" aria-label="Escuchar"><svg class="i" id="playIc" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
       <button class="ic btn" id="fwd" aria-label="Frase siguiente"><svg class="i" viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
@@ -425,6 +520,7 @@ dl.meta dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
     <div class="tabs">
       <button class="tab on" data-tab="hl" id="tabHl">Resaltados</button>
       <button class="tab" data-tab="ai" id="tabAi">Resumen con IA</button>
+      <button class="peek-x" id="peekX" type="button" aria-label="Ocultar panel y volver a la lectura">×</button>
     </div>
     <div class="scroll">
       <div class="pane" id="paneHl">
@@ -563,7 +659,9 @@ const idbDel=(st,id)=>{const r=idbDelRaw(st,id);if(SYNC_KIND[st]&&window.__atril
 const allHls=()=>S.hls.concat(SAMPLE_HLS.filter(h=>!S.hiddenEx.has(h.id)));
 function upsertLocal(h){const i=S.hls.findIndex(x=>x.id===h.id);if(i<0)S.hls.push(h);else S.hls[i]=h}
 async function saveHl(h){
+  const isNew=!S.hls.some(x=>x.id===h.id);
   upsertLocal(h);renderHighlightsInText();renderNotes();renderLib();
+  if(isNew)peekNotes();
   if(S.db){try{const d={...h,kind:'hl'};delete d.id;await S.db.collection('data/users/'+S.uid).doc(h.id).set(d)}catch(e){toast('No se pudo sincronizar. Se guardó en este navegador.');idbPut('hls',h)}}
   else idbPut('hls',h);
 }
@@ -758,18 +856,69 @@ function renderChapter(keepIdx){
   renderScope();try{updateAiHint()}catch(e){}
   $('#prevCh').disabled=S.ch===0;$('#nextCh').disabled=S.ch>=b.chapters.length-1;
 }
+/* Resaltados exactos: cada resaltado guarda en qué frase y en qué letra empieza y termina (h.range).
+   Los antiguos (sin range) cubren frases completas. Se pintan con <mark> dentro de cada frase. */
+function hlIntervals(h,k,len){
+  const r=h.range;if(!r)return [0,len];
+  const ks=h.sents||[];const first=k===r.s,last=k===r.e;
+  if(!ks.includes(k))return null;
+  return [first?Math.min(r.so,len):0,last?Math.min(r.eo,len):len];
+}
 function renderHighlightsInText(){
+  const dirty=$$('#reader .s.has-hl');
+  dirty.forEach(sp=>{sp.textContent=sp.textContent;sp.classList.remove('has-hl')});
   $$('#reader .s').forEach(s=>s.classList.remove('amarillo','verde','rosa','azul'));
   if(!S.book)return;
-  allHls().filter(h=>h.bookId===S.book.id&&h.ch===S.ch).forEach(h=>(h.sents||[]).forEach(k=>{const el=document.querySelector(`#reader .s[data-k="${k}"]`);if(el)el.classList.add(h.color||'amarillo')}));
+  const per=new Map();
+  allHls().filter(h=>h.bookId===S.book.id&&h.ch===S.ch).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).forEach(h=>(h.sents||[]).forEach(k=>{if(!per.has(k))per.set(k,[]);per.get(k).push(h)}));
+  for(const [k,hs] of per){
+    const sp=document.querySelector(`#reader .s[data-k="${k}"]`);if(!sp)continue;
+    const txt=sp.textContent,len=txt.length;const ivs=[];
+    for(const h of hs){const iv=hlIntervals(h,k,len);if(iv&&iv[1]>iv[0])ivs.push({a:iv[0],b:iv[1],c:h.color||'amarillo',id:h.id})}
+    if(!ivs.length)continue;
+    const cuts=[...new Set([0,len,...ivs.flatMap(v=>[v.a,v.b])])].sort((x,y)=>x-y);
+    let html='';
+    for(let i=0;i<cuts.length-1;i++){const a=cuts[i],b=cuts[i+1];if(b<=a)continue;const seg=esc(txt.slice(a,b));
+      let top=null;for(const v of ivs)if(v.a<=a&&v.b>=b)top=v; // el más reciente gana
+      html+=top?`<mark class="hlm ${top.c}" data-h="${top.id}">${seg}</mark>`:seg}
+    sp.innerHTML=html;sp.classList.add('has-hl');
+  }
 }
 function spanAt(i){return (S.spans&&S.spans[i])||null}
 function setNow(i,scroll){$$('#reader .s.now').forEach(s=>s.classList.remove('now'));const el=spanAt(i);if(el&&(S.play.on||i>0)){el.classList.add('now');if(scroll&&isPaged()){const p=pageOf(el);if(p!==PG.page){const f=PG.page;animateTurn(p>f?1:-1,f,p);PG.page=p;updatePager()}}else if(scroll){const sc=$('#readScroll'),r=el.getBoundingClientRect(),sr=sc.getBoundingClientRect();if(r.top<sr.top+40||r.bottom>sr.bottom-40)el.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})}}}
+/* Avance del capítulo: se mide en palabras (≈150 por minuto a 1×) y, con voces en la nube, se afina con el audio de la frase actual. */
+const PROG={spans:null,pre:[0],seeking:false};
+function wordIndex(){
+  if(PROG.spans!==S.spans){PROG.spans=S.spans;const pre=[0];for(const el of S.spans||[])pre.push(pre[pre.length-1]+Math.max(1,el.textContent.trim().split(/\s+/).length));PROG.pre=pre}
+  return PROG.pre;
+}
+const fmtClock=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=String(s%60).padStart(2,'0');return h?`${h}:${String(m).padStart(2,'0')}:${x}`:`${m}:${x}`};
+function wordsPerSec(){return 150*(parseFloat($('#rate').value)||1)/60}
+function updateProgress(frac){
+  const pre=wordIndex(),n=pre.length-1,total=pre[n]||0,bar=$('#apBar');
+  if(!n||!total){bar.disabled=true;bar.value=0;bar.style.setProperty('--p','0%');$('#apEl').textContent='0:00';$('#apLeft').textContent='-0:00';return}
+  bar.disabled=false;
+  const i=Math.min(S.play.idx,n-1);
+  if(frac==null){frac=0;if(S.play.on&&!audioEl.paused&&audioEl.duration&&isFinite(audioEl.duration))frac=Math.min(1,audioEl.currentTime/audioEl.duration)}
+  const done=pre[i]+frac*(pre[i+1]-pre[i]),wps=wordsPerSec();
+  if(!PROG.seeking){const v=Math.round(done/total*1000);bar.value=v;bar.style.setProperty('--p',v/10+'%')}
+  $('#apEl').textContent=fmtClock(done/wps);$('#apLeft').textContent='-'+fmtClock((total-done)/wps);
+  bar.setAttribute('aria-valuetext',`${fmtClock(done/wps)} escuchado, faltan ${fmtClock((total-done)/wps)}`);
+}
 function updateMeta(){
-  const n=S.keys.length;if(!n){$('#meta').textContent='';return}
-  let words=0;for(let i=S.play.idx;i<n;i++){const el=spanAt(i);if(el)words+=el.textContent.split(/\s+/).length}
-  const rate=parseFloat($('#rate').value)||1;const min=Math.max(1,Math.round(words/(150*rate)));
-  $('#meta').textContent=`Frase ${S.play.idx+1} de ${n} · ≈ ${min} min para terminar el capítulo`;
+  const n=S.keys.length;
+  $('#meta').textContent=n?`Frase ${S.play.idx+1} de ${n} · tiempo aproximado`:'';
+  updateProgress();
+}
+function seekIdx(i){i=Math.max(0,Math.min(S.keys.length-1,i));S.play.on?speakAt(i):(S.play.idx=i,setNow(i,true),updateMeta(),saveProg())}
+{
+  const bar=$('#apBar');
+  const idxAt=v=>{const pre=wordIndex(),w=v/1000*pre[pre.length-1];let i=0;while(i<pre.length-2&&pre[i+1]<=w)i++;return i};
+  bar.addEventListener('input',()=>{PROG.seeking=true;const v=+bar.value,pre=wordIndex(),total=pre[pre.length-1],wps=wordsPerSec();
+    bar.style.setProperty('--p',v/10+'%');$('#apEl').textContent=fmtClock(v/1000*total/wps);$('#apLeft').textContent='-'+fmtClock((1-v/1000)*total/wps)});
+  bar.addEventListener('change',()=>{PROG.seeking=false;if(S.keys.length)seekIdx(idxAt(+bar.value))});
+  setTimeout(()=>audioEl.addEventListener('timeupdate',()=>{if(S.play.on)updateProgress()}),0); // audioEl se define más abajo
+  $('#rate').addEventListener('change',()=>updateProgress());
 }
 function goChapter(i,keepPlaying,toEnd){
   if(!S.book||!S.book.chapters)return;i=Math.max(0,Math.min(S.book.chapters.length-1,i));
@@ -850,7 +999,21 @@ if(synth){loadVoices();synth.onvoiceschanged=loadVoices;[800,2000,4000,8000].for
 const curSel=()=>$('#voice').value||'';
 const curVoice=()=>{const v=curSel();return v.startsWith('d:')?voices[+v.slice(2)]||null:null};
 const cloudSel=()=>{const v=curSel();if(!ONLINE||!v.startsWith('c:'))return null;const parts=v.split(':');return {p:parts[1],id:parts.slice(2).join(':')}};
-function setPlayIcon(){$('#playIc').innerHTML=S.play.on?'<path d="M7 5h4v14H7zm6 0h4v14h-4z"/>':'<path d="M8 5v14l11-7z"/>';$('#play').setAttribute('aria-label',S.play.on?'Pausar':'Escuchar');updateMediaSession()}
+/* Modo concentración: al escuchar se ocultan los paneles (en teléfono, todo menos el texto y la barra de reproducción). */
+let calmT=0;
+function syncCalm(){clearTimeout(calmT);calmT=setTimeout(()=>setCalm(S.play.on&&SET.calm!==false&&VIEW==='read'),S.play.on?60:450)}
+function setCalm(on){
+  const app=$('.app');if(app.classList.contains('calm')===on)return;
+  app.classList.toggle('calm',on);if(!on)app.classList.remove('peek');
+  if(on&&tb)tb.hidden=true;
+  requestAnimationFrame(()=>{relayout();const el=spanAt(S.play.idx);if(el&&!isPaged()){const sc=$('#readScroll'),r=el.getBoundingClientRect(),sr=sc.getBoundingClientRect();if(r.top<sr.top||r.bottom>sr.bottom)el.scrollIntoView({block:'center'})}});
+}
+function peekNotes(){
+  const app=$('.app');if(innerWidth<=900||!(app.classList.contains('calm')||app.classList.contains('focus')))return;
+  app.classList.add('peek');
+}
+function unpeek(){$('.app').classList.remove('peek')}
+function setPlayIcon(){syncCalm();$('#playIc').innerHTML=S.play.on?'<path d="M7 5h4v14H7zm6 0h4v14h-4z"/>':'<path d="M8 5v14l11-7z"/>';$('#play').setAttribute('aria-label',S.play.on?'Pausar':'Escuchar');updateMediaSession()}
 const sentenceText=i=>((spanAt(i)||{}).textContent||'').trim();
 const speakable=t=>/[\p{L}\p{N}]/u.test(t);
 function endOfChapter(){if(S.book.chapters&&S.ch<S.book.chapters.length-1){goChapter(S.ch+1,true)}else{stop();toast('Terminaste el libro.')}}
@@ -997,24 +1160,47 @@ const tb=$('#seltb');let pendingKeys=null;
 function keysInSelection(){
   const sel=getSelection();if(!sel||sel.isCollapsed||!sel.rangeCount)return null;
   const rg=sel.getRangeAt(0);if(!$('#reader').contains(rg.commonAncestorContainer))return null;
-  const ks=$$('#reader .s').filter(s=>rg.intersectsNode(s)&&s.textContent.trim()).map(s=>s.dataset.k);
-  return ks.length?{ks,rect:rg.getBoundingClientRect()}:null;
+  const spans=$$('#reader .s').filter(s=>rg.intersectsNode(s)&&s.textContent.trim());
+  if(!spans.length)return null;
+  // Posición exacta (en letras) dentro de la primera y la última frase tocadas.
+  const off=(sp,node,o)=>{if(!sp.contains(node))return null;const r=document.createRange();r.setStart(sp,0);r.setEnd(node,o);return r.toString().length};
+  const S0=spans[0],S1=spans[spans.length-1],t0=S0.textContent,t1=S1.textContent;
+  let so=off(S0,rg.startContainer,rg.startOffset),eo=off(S1,rg.endContainer,rg.endOffset);
+  if(so==null)so=0;if(eo==null)eo=t1.length;
+  // Sin espacios sueltos en los bordes y completando palabras cortadas a la mitad.
+  const W=/[\p{L}\p{N}'’\-]/u;
+  while(so<t0.length&&/\s/.test(t0[so]))so++;
+  while(eo>0&&/\s/.test(t1[eo-1]))eo--;
+  while(so>0&&W.test(t0[so-1])&&W.test(t0[so]||''))so--;
+  while(eo<t1.length&&W.test(t1[eo])&&W.test(t1[eo-1]||''))eo++;
+  if(S0===S1&&eo<=so)return null;
+  const ks=spans.map(s=>s.dataset.k);
+  let text;
+  if(S0===S1)text=t0.slice(so,eo);
+  else text=[t0.slice(so),...spans.slice(1,-1).map(s=>s.textContent),t1.slice(0,eo)].join('');
+  text=text.replace(/\s+/g,' ').trim();
+  const full=so===0&&eo===t1.length;
+  return {ks,rect:rg.getBoundingClientRect(),range:full?null:{s:ks[0],so,e:ks[ks.length-1],eo},text};
 }
 function onSelEnd(){setTimeout(()=>{const r=keysInSelection();if(!r){tb.hidden=true;pendingKeys=null;return}
-  pendingKeys=r.ks;tb.hidden=false;const w=tb.offsetWidth;let x=r.rect.left+r.rect.width/2-w/2;x=Math.max(8,Math.min(innerWidth-w-8,x));let y=r.rect.top-tb.offsetHeight-10;if(y<8)y=r.rect.bottom+10;tb.style.left=x+'px';tb.style.top=y+'px'},10)}
+  pendingKeys=r;tb.hidden=false;const w=tb.offsetWidth;let x=r.rect.left+r.rect.width/2-w/2;x=Math.max(8,Math.min(innerWidth-w-8,x));let y=r.rect.top-tb.offsetHeight-10;if(y<8)y=r.rect.bottom+10;tb.style.left=x+'px';tb.style.top=y+'px'},10)}
 $('#reader').addEventListener('mouseup',onSelEnd);$('#reader').addEventListener('touchend',onSelEnd);
 document.addEventListener('selectionchange',()=>{const s=getSelection();if(s&&s.isCollapsed&&!tb.matches(':hover'))tb.hidden=true});
 $('#readScroll').addEventListener('scroll',()=>{tb.hidden=true});
-tb.querySelectorAll('.sw').forEach(b=>{b.onmousedown=e=>e.preventDefault();b.onclick=()=>{if(pendingKeys)createHl(pendingKeys,b.dataset.c);getSelection().removeAllRanges();tb.hidden=true;pendingKeys=null}});
+tb.querySelectorAll('.sw').forEach(b=>{b.onmousedown=e=>e.preventDefault();b.onclick=()=>{if(pendingKeys)createHl(pendingKeys.ks,b.dataset.c,pendingKeys);getSelection().removeAllRanges();tb.hidden=true;pendingKeys=null}});
 $('#reader').addEventListener('click',e=>{const s=e.target.closest('.s');const sel=getSelection();if(!s||(sel&&!sel.isCollapsed))return;const i=S.keys.indexOf(s.dataset.k);if(i<0)return;if(S.play.on)speakAt(i);else{S.play.idx=i;setNow(i,false);updateMeta();saveProg()}});
 function keyOrder(k){const [a,b]=k.split('.').map(Number);return a*10000+b}
-function createHl(keys,color){
+function createHl(keys,color,sel){
   if(!S.book||!S.book.chapters)return;
   keys=[...new Set(keys)].sort((a,b)=>keyOrder(a)-keyOrder(b));
-  const text=keys.map(k=>{const el=document.querySelector(`#reader .s[data-k="${k}"]`);return el?el.textContent:''}).join('').trim();
-  const existing=allHls().find(h=>h.bookId===S.book.id&&h.ch===S.ch&&h.sents&&h.sents.join()===keys.join());
+  const range=sel&&sel.range||null;
+  const text=sel&&sel.text?sel.text:keys.map(k=>{const el=document.querySelector(`#reader .s[data-k="${k}"]`);return el?el.textContent:''}).join('').trim();
+  const same=h=>h.bookId===S.book.id&&h.ch===S.ch&&h.sents&&h.sents.join()===keys.join()&&JSON.stringify(h.range||null)===JSON.stringify(range);
+  const existing=allHls().find(same);
   if(existing){saveHl({...existing,color,example:false});return}
-  saveHl({id:uid(),bookId:S.book.id,bookTitle:S.book.title,bookAuthor:S.book.author||'',ch:S.ch,chTitle:S.book.chapters[S.ch].title,sents:keys,text,color,note:'',createdAt:Date.now()});
+  const hl={id:uid(),bookId:S.book.id,bookTitle:S.book.title,bookAuthor:S.book.author||'',ch:S.ch,chTitle:S.book.chapters[S.ch].title,sents:keys,text,color,note:'',createdAt:Date.now()};
+  if(range)hl.range=range;
+  saveHl(hl);
 }
 
 /* ---------- Render: notas ---------- */
@@ -1181,7 +1367,7 @@ function updateAiHint(){
   const tn=aiTargetChapters().length;
   const parts=[];if(n)parts.push(`${n} resaltado${n>1?'s':''} ${scopeName()}`);if(full)parts.push(tn>1?`el texto de ${tn} capítulos`:'el texto del capítulo');if(d)parts.push(`${d} documento${d>1?'s':''}`);
   const hasMaterial=n||full||d;
-  let msg=!S.sample?(ONLINE?'La IA todavía no está lista: falta la llave de Anthropic en Vercel, o no se pudo conectar con el servidor.':'La IA se activa al abrir esta página en claude.ai.'):!hasMaterial?'No hay material todavía: resalta algo, agrega un documento o incluye el texto del capítulo.':custom&&!prompt?'Escribe tu instrucción o elige un prompt guardado.':`Claude usará ${parts.join(', ').replace(/, ([^,]*)$/,' y $1')}.`;
+  let msg=!S.sample?(ONLINE?(SB.user?'Para usar la IA, abre tu cuenta (arriba de tu biblioteca) y agrega tu llave de Claude o de ChatGPT.':'Para usar la IA, toca «Inteligencia artificial» arriba de tu biblioteca y agrega tu llave de Claude o de ChatGPT.'):'La IA se activa al abrir esta página en claude.ai.'):!hasMaterial?'No hay material todavía: resalta algo, agrega un documento o incluye el texto del capítulo.':custom&&!prompt?'Escribe tu instrucción o elige un prompt guardado.':`${ONLINE?provName():'Claude'} usará ${parts.join(', ').replace(/, ([^,]*)$/,' y $1')}.`;
   $('#aiHint').textContent=msg;
   $('#genBtn').disabled=!S.sample||!hasMaterial||(custom&&!prompt);
 }
@@ -1241,7 +1427,8 @@ const AI=Object.assign({tier:'default',effort:'auto'},ls.get('ai',{}));
 function renderAiOpts(){
   $$('#tierSeg button').forEach(b=>b.classList.toggle('on',b.dataset.t===AI.tier));
   $$('#effortSeg button').forEach(b=>b.classList.toggle('on',b.dataset.e===AI.effort));
-  $('#tierHint').textContent=`${TIERS[AI.tier].m} · ${TIERS[AI.tier].h}`;
+  let oa=false;try{oa=ONLINE&&aiProv()==='openai'}catch(e){} // AIKEY se define más abajo
+  $('#tierHint').textContent=`${oa?'ChatGPT':TIERS[AI.tier].m} · ${TIERS[AI.tier].h}`;
   const q=AI.tier==='quick';$$('#effortSeg button').forEach(b=>b.disabled=q);
   $('#effortHint').textContent=q?'La potencia Rápida no piensa antes de responder. Sube a Equilibrada o Máxima para ajustar el pensamiento.':EFFORTS[AI.effort];
   ls.set('ai',AI);
@@ -1260,7 +1447,7 @@ async function generate(o){
   const btn=$('#genBtn');btn.disabled=true;btn.textContent='Generando…';$('#regenBtn').disabled=true;$('#deeperBtn').hidden=true;
   $('#aiOut').hidden=false;$('#cites').innerHTML='';$('#aiMeta').textContent='';
   const t0=Date.now();let started=false;
-  const think=()=>{if(started)return;const s=Math.round((Date.now()-t0)/1000);$('#outBody').innerHTML=`<div class="thinking"><i></i><i></i><i></i>${AI.tier==='quick'?'Escribiendo':'Claude está pensando'}… <span>${s} s</span></div>`};
+  const think=()=>{if(started)return;const s=Math.round((Date.now()-t0)/1000);$('#outBody').innerHTML=`<div class="thinking"><i></i><i></i><i></i>${AI.tier==='quick'?'Escribiendo':(ONLINE?provName():'Claude')+' está pensando'}… <span>${s} s</span></div>`};
   think();clearInterval(aiTimer);aiTimer=setInterval(think,1000);
   const opts={signal:aiCtl.signal,modelTier:AI.tier,onText:({text})=>{if(!text||/^\s*Thinking\.{3}\s*$/i.test(text))return;started=true;$('#outBody').innerHTML=md2html(text)}};
   if(AI.tier!=='quick'&&AI.effort!=='auto')opts.effort=AI.effort;
@@ -1270,7 +1457,8 @@ async function generate(o){
     started=true;clearInterval(aiTimer);
     $('#outBody').innerHTML=md2html(r.text);const used=renderCites(r.text,hs);
     const tier=TIERS[r.modelTierApplied]||TIERS[AI.tier];const secs=Math.round((Date.now()-t0)/1000);
-    $('#aiMeta').textContent=`Generado con ${tier.m}${opts.effort&&r.modelTierApplied!=='quick'?` · pensamiento ${EFF_NAME[opts.effort]}`:''} · ${secs} s${r.modelTierApplied&&r.modelTierApplied!==AI.tier?' (tu plan usó un nivel cercano)':''}`;
+    const mName=r.modelApplied&&!/^claude/.test(r.modelApplied)?r.modelApplied:tier.m;
+    $('#aiMeta').textContent=`Generado con ${mName}${opts.effort&&r.modelTierApplied!=='quick'?` · pensamiento ${EFF_NAME[opts.effort]}`:''} · ${secs} s${r.modelTierApplied&&r.modelTierApplied!==AI.tier?' (tu plan usó un nivel cercano)':''}`;
     $('#deeperBtn').hidden=AI.tier==='complex'&&AI.effort==='high';
     const names={resumen:'Resumen',temas:'Temas',esquema:'Esquema de tarea',custom:'Respuesta'};
     S.lastOut={name:`${names[S.mode]} - ${S.book.title}.md`,md:`# ${names[S.mode]}: ${S.book.title}\n\n${S.mode==='esquema'&&$('#consigna').value.trim()?`**Consigna:** ${$('#consigna').value.trim()}\n\n`:''}${r.text}\n\n## Citas\n\n`+used.map(n=>`- [${n}] «${hs[n-1].text}» (${hs[n-1].chTitle||''})`).join('\n')+'\n'};
@@ -1278,7 +1466,7 @@ async function generate(o){
     clearInterval(aiTimer);
     if(e&&e.name==='AbortError')return;
     const partial=e&&e.text?md2html(e.text):'';
-    $('#outBody').innerHTML=partial+`<p class="hint">${e&&(e.code==='quota_user'||e.code==='quota'||e.code==='prompt_too_large')&&e.message?esc(e.message):e&&e.code==='not_granted'?'Necesitas dar permiso a la página para usar Claude.':e&&e.code==='rate_limited'?'Llegaste al límite de uso por ahora. Espera un momento o baja la potencia.':e&&e.code==='sampling_disabled'?'El uso de Claude desde páginas está desactivado en tu cuenta.':'No se pudo generar. Intenta de nuevo.'}</p>`;
+    $('#outBody').innerHTML=partial+`<p class="hint">${e&&(e.code==='quota_user'||e.code==='quota'||e.code==='prompt_too_large')&&e.message?esc(e.message):e&&e.code==='not_granted'?'Necesitas dar permiso a la página para usar Claude.':e&&e.code==='rate_limited'?'Llegaste al límite de uso por ahora. Espera un momento o baja la potencia.':e&&e.code==='sampling_disabled'?'El uso de Claude desde páginas está desactivado en tu cuenta.':e&&e.message&&ONLINE?esc(e.message):'No se pudo generar. Intenta de nuevo.'}</p>`;
   }finally{btn.textContent='Generar a partir de mis resaltados';$('#regenBtn').disabled=false;updateAiHint()}
 }
 $('#copyOut').onclick=async()=>{if(!S.lastOut)return;try{await navigator.clipboard.writeText(S.lastOut.md);toast('Copiado')}catch(e){const r=document.createRange();r.selectNodeContents($('#outBody'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto seleccionado. Cópialo con ⌘C.')}};
@@ -1319,7 +1507,7 @@ addEventListener('resize',()=>{tb.hidden=true});
 /* ---------- Vistas: lectura, estante, ficha ---------- */
 let VIEW='read';
 function showView(v){
-  VIEW=v;
+  VIEW=v;try{syncCalm()}catch(e){}
   $('#colRead .rhead').hidden=v!=='read';$('#readScroll').hidden=v!=='read';$('#colRead .player').hidden=v!=='read';
   $('#shelfView').hidden=v!=='shelf';$('#detailView').hidden=v!=='detail';
   togglePanel(false);toggleToc(false);tb.hidden=true;
@@ -1394,7 +1582,8 @@ const PG={page:0,pages:1,step:1};
 const isPaged=()=>SET&&SET.layout==='paged'&&VIEW==='read';
 function layoutPaged(){
   const page=$('#pageBox'),r=$('#reader'),sc=$('#readScroll');
-  page.classList.toggle('spread',sc.clientWidth>=1060);
+  const sp=SET.spread||'auto',wide=sc.clientWidth,roomy=$('.app').classList.contains('focus')||$('.app').classList.contains('calm');
+  page.classList.toggle('spread',sp==='2'?wide>=720:sp==='1'?false:wide>=(roomy?900:1060));
   const cs=getComputedStyle(page);
   const padL=parseFloat(cs.paddingLeft),padR=parseFloat(cs.paddingRight),padT=parseFloat(cs.paddingTop),padB=parseFloat(cs.paddingBottom);
   const w=page.clientWidth-padL-padR,h=page.clientHeight-padT-padB;
@@ -1506,6 +1695,20 @@ function setFocus(on){
   tb.hidden=true;
 }
 $('#focusBtn').onclick=()=>setFocus(!focusOn);
+/* Ocultar / mostrar la biblioteca (panel izquierdo) */
+function setLibOff(off,save=true){
+  const app=$('.app');app.classList.toggle('lib-off',off);
+  $('#libHide').setAttribute('aria-expanded',String(!off));$('#libShow').setAttribute('aria-expanded',String(off));
+  if(save)ls.set('libOff',off);
+  setTimeout(()=>{if(save)(off?$('#libShow'):$('#libHide')).focus({preventScroll:true});relayout()},440);
+}
+$('#libHide').onclick=()=>setLibOff(true);
+$('#libShow').onclick=()=>setLibOff(false);
+if(ls.get('libOff',false)){$('.app').style.transition='none';setLibOff(true,false);requestAnimationFrame(()=>requestAnimationFrame(()=>{$('.app').style.transition=''}))}
+
+$('#peekX').onclick=unpeek;
+$('#readScroll').addEventListener('pointerdown',()=>{if($('.app').classList.contains('peek'))unpeek()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('.app').classList.contains('peek')){e.stopImmediatePropagation();unpeek()}},true);
 document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&focusOn)setFocus(false)});
 document.addEventListener('keydown',e=>{
   if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))return;
@@ -1514,7 +1717,7 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ---------- Ajustes de lectura ---------- */
-const DEF={layout:'scroll',turn:'curl',bg:'system',font:'literata',size:18,lh:'normal',colors:{amarillo:'#F6CC1A',verde:'#43B872',rosa:'#E9679E',azul:'#4D93F0'}};
+const DEF={layout:'scroll',turn:'curl',spread:'auto',calm:true,bg:'system',font:'literata',size:18,lh:'normal',colors:{amarillo:'#F6CC1A',verde:'#43B872',rosa:'#E9679E',azul:'#4D93F0'}};
 const FONTS={literata:{n:'Literata',d:'Serif para pantallas',f:'"Literata",Georgia,serif'},source:{n:'Source Serif',d:'Serif clásica',f:'"Source Serif 4",Georgia,serif'},atkinson:{n:'Atkinson',d:'Máxima legibilidad',f:'"Atkinson Hyperlegible",system-ui,sans-serif'},lexend:{n:'Lexend',d:'Lectura fluida',f:'"Lexend",system-ui,sans-serif'}};
 const LH={compacto:1.5,normal:1.72,amplio:2};
 let SET=Object.assign({},DEF,ls.get('set',{}));SET.colors=Object.assign({},DEF.colors,SET.colors||{});if(!FONTS[SET.font])SET.font='literata';
@@ -1543,6 +1746,9 @@ function renderSetPanel(){
   $$('#turnOpts button').forEach(b=>b.classList.toggle('on',b.dataset.t===SET.turn));
   $('#turnHint').textContent=SET.layout==='paged'?TURN_HINT[SET.turn]||'':'Disponible en el modo Páginas.';
   $$('#turnOpts button').forEach(b=>b.disabled=SET.layout!=='paged');
+  $$('#spreadOpts button').forEach(b=>{b.classList.toggle('on',b.dataset.sp===(SET.spread||'auto'));b.disabled=SET.layout!=='paged'});
+  $('#spreadHint').textContent=SET.layout!=='paged'?'Disponible en el modo Páginas.':SET.spread==='2'?'Dos páginas lado a lado, como un libro abierto (si cabe en la pantalla).':SET.spread==='1'?'Siempre una sola página.':'Dos páginas cuando hay espacio, por ejemplo en pantalla completa o al escuchar.';
+  $('#calmIn').checked=SET.calm!==false;
   $('#fontOpts').innerHTML=Object.entries(FONTS).map(([k,f])=>`<button data-f="${k}" class="${SET.font===k?'on':''}"><b style="font-family:${esc(f.f)}">Aa ${f.n}</b><span>${f.d}</span></button>`).join('');
   $$('#fontOpts button').forEach(b=>b.onclick=()=>{SET.font=b.dataset.f;applySet()});
   $('#sizeIn').value=SET.size;$('#sizeOut').textContent=SET.size+' px';
@@ -1554,6 +1760,8 @@ function renderSetPanel(){
 }
 $$('#bgOpts button').forEach(b=>b.onclick=()=>{SET.bg=b.dataset.bg;applySet()});
 $$('#layoutOpts button').forEach(b=>b.onclick=()=>{SET.layout=b.dataset.l;applySet()});
+$$('#spreadOpts button').forEach(b=>b.onclick=()=>{SET.spread=b.dataset.sp;ls.set('set',SET);renderSetPanel();relayout()});
+$('#calmIn').onchange=e=>{SET.calm=e.target.checked;ls.set('set',SET);syncCalm()};
 $$('#turnOpts button').forEach(b=>b.onclick=()=>{SET.turn=b.dataset.t;ls.set('set',SET);renderSetPanel();
   // vista previa: pasa una hoja y regresa
   if(isPaged()&&SET.turn!=='none'){const f=PG.page,t=f<PG.pages-1?f+1:f-1;if(t>=0&&t!==f){animateTurn(t>f?1:-1,f,t);PG.page=t;setTimeout(()=>{animateTurn(t>f?-1:1,t,f);PG.page=f;updatePager()},SET.turn==='curl'?820:600)}}});
@@ -1622,12 +1830,81 @@ function askAccess(wrong){
   });
   return accessPromise;
 }
+/* Llaves de IA de cada persona (Claude y ChatGPT): se guardan solo en este navegador, no se sincronizan ni se guardan en el servidor. */
+const PROVS={
+  claude:{n:'Claude',slot:'aiKey',re:/^sk-ant-[\w-]{20,}$/,pre:'sk-ant-',hdr:'x-atril-ai-key',
+    steps:[
+      ['Entra a la consola de Claude','Abre <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> y crea tu cuenta o inicia sesión con tu correo. Es distinta de claude.ai: tu suscripción Pro o Max no se usa aquí.'],
+      ['Carga saldo','Ve a <a href="https://console.anthropic.com/settings/billing" target="_blank" rel="noopener">Settings → Billing</a>, agrega una tarjeta y compra crédito (desde 5 USD). Es prepago: cuando se acaba, la IA se detiene y no te cobra de más.'],
+      ['Crea tu llave','Ve a <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Settings → API Keys</a>, toca <b>Create Key</b>, ponle de nombre <b>Atril</b> y toca <b>Add</b>.'],
+      ['Cópiala y pégala aquí','Toca <b>Copy</b>. Empieza con <code>sk-ant-</code> y solo se muestra una vez: si la pierdes, crea otra.']]},
+  openai:{n:'ChatGPT',slot:'oaKey',re:/^sk-[\w-]{20,}$/,pre:'sk-',hdr:'x-atril-oa-key',
+    steps:[
+      ['Entra a la plataforma de OpenAI','Abre <a href="https://platform.openai.com" target="_blank" rel="noopener">platform.openai.com</a> e inicia sesión con tu cuenta de ChatGPT. Ojo: ChatGPT Plus o Pro no incluye la API; se paga aparte, por uso.'],
+      ['Carga saldo','Ve a <a href="https://platform.openai.com/settings/organization/billing/overview" target="_blank" rel="noopener">Settings → Billing</a>, toca <b>Add payment details</b> y luego <b>Add to credit balance</b> (desde 5 USD). Puedes dejar apagada la recarga automática.'],
+      ['Crea tu llave','Ve a <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">API keys</a>, toca <b>Create new secret key</b>, ponle de nombre <b>Atril</b>, deja los permisos en <b>All</b> y toca <b>Create secret key</b>.'],
+      ['Cópiala y pégala aquí','Toca <b>Copy</b>. Empieza con <code>sk-</code> (normalmente <code>sk-proj-</code>) y solo se muestra una vez: si la pierdes, crea otra.']]},
+};
+const AIKEY={
+  uid(){return (SB&&SB.user&&SB.user.id)||'local'},
+  get(p='claude'){try{return localStorage.getItem('atril:'+PROVS[p].slot+':'+this.uid())||''}catch(e){return ''}},
+  set(v,p='claude'){try{const k='atril:'+PROVS[p].slot+':'+this.uid();v?localStorage.setItem(k,v):localStorage.removeItem(k)}catch(e){}},
+  clearAll(){Object.keys(PROVS).forEach(p=>this.set('',p));try{localStorage.removeItem('atril:aiProv:'+this.uid())}catch(e){}},
+  mask(v){return v?v.slice(0,v.startsWith('sk-ant-')?10:8)+'…'+v.slice(-4):''},
+  pref(){try{return localStorage.getItem('atril:aiProv:'+this.uid())||''}catch(e){return ''}},
+  setPref(p){try{localStorage.setItem('atril:aiProv:'+this.uid(),p)}catch(e){}},
+};
+const canUse=p=>p==='claude'?!!(AIKEY.get('claude')||(S.cfg&&S.cfg.ai)):!!AIKEY.get('openai');
+function aiProv(){const pr=AIKEY.pref();if(pr&&canUse(pr))return pr;if(canUse('claude'))return 'claude';if(canUse('openai'))return 'openai';return null}
+const provName=()=>(PROVS[aiProv()]||PROVS.claude).n;
+function refreshAi(){S.sample=aiProv()?makeSample():null;try{updateAiHint();renderAiOpts()}catch(e){}renderAccount()}
+function aiRowsHTML(){
+  const srv=!!(S.cfg&&S.cfg.ai),cur=aiProv();
+  const row=p=>{const k=AIKEY.get(p);const st=k?`Tu llave · ${esc(AIKEY.mask(k))}`:p==='claude'&&srv?'Usas la compartida de Atril':'Sin configurar';
+    return `<div class="acct-key"><span><b>${PROVS[p].n}</b>${st}</span><button class="btn sm${k?' ghost':''}" type="button" data-key="${p}">${k?'Cambiar':'Agregar'}</button></div>`};
+  const both=canUse('claude')&&canUse('openai');
+  return row('claude')+row('openai')+(both?`<div class="acct-pick"><span class="label">Usar para resúmenes</span><div class="seg" id="provSeg"><button type="button" data-p="claude" class="${cur==='claude'?'on':''}">Claude</button><button type="button" data-p="openai" class="${cur==='openai'?'on':''}">ChatGPT</button></div></div>`:'')
+    +(cur?'':'<p class="hint" style="margin:0">Agrega una llave de Claude o de ChatGPT para activar los resúmenes con IA.</p>');
+}
+function wireAiRows(root,close){
+  root.querySelectorAll('[data-key]').forEach(b=>b.onclick=()=>{close&&close();openAiKey(b.dataset.key)});
+  root.querySelectorAll('#provSeg button').forEach(b=>b.onclick=()=>{AIKEY.setPref(b.dataset.p);refreshAi();root.querySelectorAll('#provSeg button').forEach(x=>x.classList.toggle('on',x===b));toast(`Los resúmenes se harán con ${PROVS[b.dataset.p].n}.`)});
+}
+function openAiSettings(){
+  const ov=overlay(`<div class="gate-card acct-card" role="dialog" aria-modal="true" aria-labelledby="aiSetT"><button type="button" class="gate-x" data-close aria-label="Cerrar">×</button>
+    <b class="gate-logo">Atril</b><h2 id="aiSetT">Inteligencia artificial</h2><p>Usa tu propia cuenta de Claude o de ChatGPT para los resúmenes.</p><section class="acct-sec">${aiRowsHTML()}</section></div>`,{closable:true});
+  wireAiRows(ov,()=>ov.remove());
+}
+function openAiKey(p='claude'){
+  const P=PROVS[p],cur=AIKEY.get(p),other=p==='claude'?'openai':'claude';
+  const ov=overlay(`<form class="gate-card ak-card" id="akForm"><button type="button" class="gate-x" data-close aria-label="Cerrar">×</button><b class="gate-logo">Atril</b><h2>Tu llave de ${P.n}</h2>
+    <p>Con tu propia llave, los resúmenes los paga tu cuenta de ${p==='claude'?'Anthropic':'OpenAI'} y no tienes límite de consultas en Atril. Se guarda solo en este dispositivo: si usas Atril en otro, pégala también ahí.</p>
+    ${cur?`<p style="font-size:12.5px">Llave actual: <code>${esc(AIKEY.mask(cur))}</code></p>`:''}
+    <details class="ak-steps"${cur?'':' open'}><summary>Cómo conseguir tu llave (4 pasos)</summary><ol>${P.steps.map(([t,d])=>`<li><b>${t}.</b> ${d}</li>`).join('')}</ol></details>
+    <label class="label" for="akIn">${cur?'Reemplazar por otra llave':'Pega tu llave'}</label><input id="akIn" type="password" autocomplete="off" spellcheck="false" placeholder="${P.pre}…">
+    <span class="gate-err" id="akErr" hidden></span>
+    <button class="btn primary" type="submit">Probar y guardar</button>${cur?'<button class="btn ghost" type="button" id="akDel">Quitar mi llave</button>':''}
+    <button type="button" class="ak-switch" id="akOther">¿Prefieres ${PROVS[other].n}? Usar una llave de ${PROVS[other].n}</button></form>`,{closable:true});
+  setTimeout(()=>ov.querySelector('#akIn').focus(),50);
+  const er=ov.querySelector('#akErr'),show=m=>{er.hidden=false;er.textContent=m};
+  ov.querySelector('#akOther').onclick=()=>{ov.remove();openAiKey(other)};
+  if(cur)ov.querySelector('#akDel').onclick=()=>{AIKEY.set('',p);ov.remove();refreshAi();toast(`Quitaste tu llave de ${P.n}.`)};
+  ov.querySelector('#akForm').onsubmit=async e=>{e.preventDefault();const v=ov.querySelector('#akIn').value.trim().replace(/\s+/g,'');
+    if(p==='openai'&&v.startsWith('sk-ant-')){show('Esa es una llave de Claude. Pégala en «Llave de Claude».');return}
+    if(!P.re.test(v)){show(`Esa no parece una llave de ${P.n}: debe empezar con ${P.pre}.`);return}
+    const btn=ov.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Probando…';
+    let ok=false,msg='';try{const r=await fetch('/api/ai',{method:'POST',headers:API.headers({'content-type':'application/json',[P.hdr]:v}),body:JSON.stringify({test:true,provider:p==='openai'?'openai':undefined})});const j=await r.json().catch(()=>({}));ok=r.ok;msg=j.error||''}catch(_){msg='No hay conexión. Revisa tu internet.'}
+    btn.disabled=false;btn.textContent='Probar y guardar';
+    if(!ok){show(msg||'No se pudo comprobar la llave.');return}
+    AIKEY.set(v,p);AIKEY.setPref(p);ov.remove();refreshAi();toast(`Llave guardada: los resúmenes se harán con ${P.n}.`)};
+}
 function makeSample(){
   const memo=new Map();
   const f=async(input,o={})=>{
-    const key=JSON.stringify([input,o.modelTier||'default',o.effort||'']);
+    const key=JSON.stringify([aiProv(),input,o.modelTier||'default',o.effort||'']);
     if(o.cache!==false&&memo.has(key)){const t=memo.get(key);o.onText&&o.onText({text:t,delta:t});return {text:t,truncated:false,modelTierApplied:o.modelTier||'default'}}
-    const r=await fetch('/api/ai',{method:'POST',headers:API.headers({'content-type':'application/json'}),body:JSON.stringify({input,tier:o.modelTier||'default',effort:o.effort||null}),signal:o.signal});
+    const prov=aiProv()||'claude',own=AIKEY.get(prov),h={'content-type':'application/json'};if(own)h[PROVS[prov].hdr]=own;
+    const r=await fetch('/api/ai',{method:'POST',headers:API.headers(h),body:JSON.stringify({input,tier:o.modelTier||'default',effort:o.effort||null,provider:prov==='openai'?'openai':undefined}),signal:o.signal});
     if(!r.ok){let j={};try{j=await r.json()}catch(e){}if(r.status===401)onUnauthorized();throw {code:j.code||(r.status===429?'rate_limited':'error'),message:j.error||''}}
     const rd=r.body.getReader(),dec=new TextDecoder();let text='';const ERR='\u0000ERR:';
     for(;;){const {done,value}=await rd.read();if(done)break;const d=dec.decode(value,{stream:true});text+=d;const shown=text.split(ERR)[0];o.onText&&o.onText({text:shown,delta:d})}
@@ -1642,8 +1919,7 @@ const getConfig=async()=>(await fetch('/api/config',{headers:API.headers()})).js
 function onUnauthorized(){if(SB.client){toast('Tu sesión expiró. Vuelve a entrar.');SB.client.auth.signOut()}else askAccess(true)}
 async function setupServices(cfg,again){
   $('#storeHint').textContent=SB.user?'Tu biblioteca se guarda en tu cuenta: la ves en todos tus dispositivos.':'Tus libros y resaltados se guardan en este navegador. Usa «Respaldo» para pasarlos a otro dispositivo.';
-  if(cfg.ai){S.sample=makeSample();updateAiHint()}
-  renderAccount();
+  refreshAi();
   const any=cfg.voices&&(cfg.voices.google||cfg.voices.azure||cfg.voices.elevenlabs);
   if(!any)return;
   const cached=ls.get('cloudVoices',null);
@@ -1655,6 +1931,17 @@ async function setupServices(cfg,again){
 /* ---------- Cuentas con correo (Supabase) ---------- */
 const SB={client:null,user:null,token:null};
 function loadScript(src){return new Promise((res,rej)=>{const el=document.createElement('script');el.src=src;el.onload=res;el.onerror=()=>rej(new Error('No se pudo cargar '+src));document.head.appendChild(el)})}
+/* Ojo para mostrar u ocultar lo que se escribe en cualquier campo de contraseña. */
+const EYE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_OFF='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+function addPwEyes(root){
+  (root||document).querySelectorAll('input[type=password]:not([data-eye])').forEach(inp=>{
+    inp.dataset.eye='1';const w=document.createElement('span');w.className='pw-wrap';inp.parentNode.insertBefore(w,inp);w.appendChild(inp);
+    const b=document.createElement('button');b.type='button';b.className='pw-eye';b.innerHTML=EYE;b.setAttribute('aria-label','Mostrar lo que escribes');b.setAttribute('aria-pressed','false');
+    b.onclick=()=>{const show=inp.type==='password';inp.type=show?'text':'password';b.innerHTML=show?EYE_OFF:EYE;b.setAttribute('aria-pressed',String(show));b.setAttribute('aria-label',show?'Ocultar lo que escribes':'Mostrar lo que escribes');inp.focus()};
+    w.appendChild(b)});
+}
+new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes)if(n.nodeType===1&&(n.matches('input[type=password]')||n.querySelector('input[type=password]')))addPwEyes(n.parentNode||n)}).observe(document.body,{childList:true,subtree:true});
 function overlay(html,{closable}={}){
   const ov=document.createElement('div');ov.className='gate'+(closable?' gate-modal':'');ov.innerHTML=html;document.body.appendChild(ov);
   if(closable){ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('[data-close]'))ov.remove()});document.addEventListener('keydown',function k(e){if(e.key==='Escape'){ov.remove();document.removeEventListener('keydown',k)}})}
@@ -1825,20 +2112,48 @@ async function ensureContent(b){
 
 /* ---------- Mi cuenta ---------- */
 function renderAccount(){
-  const box=$('#acctBox');const me=S.cfg&&S.cfg.me;
-  if(!SB.user||!me){box.hidden=true;return}
-  box.hidden=false;
+  const box=$('#acctBox');if(!box)return;const me=S.cfg&&S.cfg.me;
+  if(!SB.user||!me){
+    // Modo con código de acceso: solo el acceso a la configuración de IA.
+    if(ONLINE&&S.booted){const pv=aiProv();box.hidden=false;box.classList.add('acct-user');
+      box.innerHTML=`<button type="button" class="acct-open" id="acctAi"><span class="acct-id"><b>Inteligencia artificial</b><span>${pv?`Resúmenes con ${PROVS[pv].n}`:'Agrega tu llave de Claude o ChatGPT'}</span></span><svg class="i acct-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 18 10 19.4l7.4-7.4L10 4.6 8.6 6l6 6z"/></svg></button>`;
+      $('#acctAi').onclick=openAiSettings}else box.hidden=true;
+    return}
+  box.hidden=false;box.classList.add('acct-user');
+  const ini=esc(((me.name||me.email||'?').trim()[0]||'?').toUpperCase());
+  box.innerHTML=`<button type="button" class="acct-open" id="acctOpen" aria-haspopup="dialog" aria-label="Abrir mi cuenta: ${esc(me.name||'')}"><span class="acct-av" aria-hidden="true">${ini}</span>
+    <span class="acct-id"><b>${esc(me.name||'Mi cuenta')}</b><span>${esc(me.email||'')}</span></span>
+    <svg class="i acct-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 18 10 19.4l7.4-7.4L10 4.6 8.6 6l6 6z"/></svg></button>`;
+  $('#acctOpen').onclick=openAccount;
+}
+/* Ventana «Mi cuenta»: uso del mes, llave de Claude, contraseña, usuarios y cerrar sesión */
+function openAccount(){
+  const me=S.cfg&&S.cfg.me;if(!me)return;
+  const own=!!AIKEY.get(aiProv()||'claude');
   const u=me.usage||{tts_chars:0,ai_calls:0},L=me.limits;
   const pct=L?Math.min(100,Math.round(u.tts_chars/L.ttsChars*100)):0;
-  box.innerHTML=`<div class="acct-row"><span class="acct-av" aria-hidden="true">${esc(((me.name||me.email||'?').trim()[0]||'?').toUpperCase())}</span>
-    <span class="acct-id"><b>${esc(me.name||'Mi cuenta')}</b><span>${esc(me.email||'')}</span></span></div>
-    ${L?`<div class="acct-use"><span>Voz en la nube este mes: ${fmtNum(u.tts_chars)} de ${fmtNum(L.ttsChars)} caracteres</span><div class="prog"><i style="width:${pct}%"></i></div><span>Claude: ${u.ai_calls} de ${L.aiCalls} consultas este mes</span></div>`:'<div class="acct-use"><span>Administrador · sin límites de uso</span></div>'}
-    <div class="acct-acts"><button class="btn sm ghost" id="acctPw">Cambiar contraseña</button>${me.isOwner?'<button class="btn sm ghost" id="acctAdmin">Usuarios</button>':''}<button class="btn sm ghost" id="acctOut">Cerrar sesión</button></div>`;
-  $('#acctPw').onclick=()=>passwordForm({title:'Cambia tu contraseña',closable:true});
-  $('#acctOut').onclick=async()=>{const b=$('#acctOut');b.disabled=true;b.textContent='Guardando…';await SYNC.drain();
+  const ini=esc(((me.name||me.email||'?').trim()[0]||'?').toUpperCase());
+  const ov=overlay(`<div class="gate-card acct-card" role="dialog" aria-modal="true" aria-labelledby="acctTtl"><button type="button" class="gate-x" data-close aria-label="Cerrar">×</button>
+    <div class="acct-row"><span class="acct-av lg" aria-hidden="true">${ini}</span><span class="acct-id"><b id="acctTtl">${esc(me.name||'Mi cuenta')}</b><span>${esc(me.email||'')}</span></span></div>
+    <section class="acct-sec"><span class="label">Uso este mes</span>
+      ${L?`<div class="acct-use"><span>Voz en la nube: ${fmtNum(u.tts_chars)} de ${fmtNum(L.ttsChars)} caracteres</span><div class="prog"><i style="width:${pct}%"></i></div><span>${own?`IA: ${u.ai_calls} consultas con tu llave, sin límite`:`IA: ${u.ai_calls} de ${L.aiCalls} consultas`}</span></div>`:'<div class="acct-use"><span>Administrador · sin límites de uso</span></div>'}
+    </section>
+    <section class="acct-sec"><span class="label">Inteligencia artificial</span>
+      ${aiRowsHTML()}
+    </section>
+    <section class="acct-sec acct-list">
+      <button type="button" class="acct-item" id="accPw">Cambiar contraseña</button>
+      ${me.isOwner?'<button type="button" class="acct-item" id="accAdmin">Usuarios de Atril</button>':''}
+      <button type="button" class="acct-item danger" id="accOut">Cerrar sesión</button>
+    </section></div>`,{closable:true});
+  const q=s=>ov.querySelector(s),go=f=>()=>{ov.remove();f()};
+  wireAiRows(ov,()=>ov.remove());
+  q('#accPw').onclick=go(()=>passwordForm({title:'Cambia tu contraseña',closable:true}));
+  if(me.isOwner)q('#accAdmin').onclick=go(openAdmin);
+  q('#accOut').onclick=async()=>{const b=q('#accOut');b.disabled=true;b.textContent='Guardando…';await SYNC.drain();AIKEY.clearAll();
     try{for(const k of Object.keys(localStorage))if(k.startsWith('atril:')&&(SYNC_LS(k.slice(6))||k==='atril:syncq'||k==='atril:last'||k==='atril:draftPrompt'))localStorage.removeItem(k)}catch(e){}
     await SB.client.auth.signOut();location.reload()};
-  if(me.isOwner)$('#acctAdmin').onclick=openAdmin;
+  setTimeout(()=>{const f=ov.querySelector('[data-key]');f&&f.focus()},50);
 }
 async function openAdmin(){
   const ov=overlay(`<div class="gate-card admin-card"><button type="button" class="gate-x" data-close aria-label="Cerrar">×</button><h2>Usuarios de Atril</h2><p id="admSub">Cargando…</p><div class="adm-wrap" id="admList"></div></div>`,{closable:true});
